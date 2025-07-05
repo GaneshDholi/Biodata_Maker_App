@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Biodata Editor</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <nav>
+    <div class="bakcBtn" id="backBtnMain">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#727272" viewBox="0 0 256 256">
+        <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z">
+        </path>
+      </svg>
+      <span>Back</span>
+    </div>
+    <button class="downloadbtn" id="downloadBtn">
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M21.875 14.0625V20.3125C21.875 20.5197 21.7927 20.7184 21.6462 20.8649C21.4997 21.0114 21.301 21.0938 21.0938 21.0938H3.90625C3.69905 21.0938 3.50034 21.0114 3.35382 20.8649C3.20731 20.7184 3.125 20.5197 3.125 20.3125V14.0625C3.125 13.8553 3.20731 13.6566 3.35382 13.5101C3.50034 13.3636 3.69905 13.2812 3.90625 13.2812C4.11345 13.2812 4.31216 13.3636 4.45868 13.5101C4.60519 13.6566 4.6875 13.8553 4.6875 14.0625V19.5312H20.3125V14.0625C20.3125 13.8553 20.3948 13.6566 20.5413 13.5101C20.6878 13.3636 20.8865 13.2812 21.0938 13.2812C21.301 13.2812 21.4997 13.3636 21.6462 13.5101C21.7927 13.6566 21.875 13.8553 21.875 14.0625ZM11.9473 14.6152C12.0198 14.6879 12.106 14.7455 12.2008 14.7848C12.2957 14.8241 12.3973 14.8444 12.5 14.8444C12.6027 14.8444 12.7043 14.8241 12.7992 14.7848C12.894 14.7455 12.9802 14.6879 13.0527 14.6152L16.959 10.709C17.0316 10.6364 17.0891 10.5502 17.1284 10.4554C17.1677 10.3605 17.1879 10.2589 17.1879 10.1562C17.1879 10.0536 17.1677 9.95195 17.1284 9.85711C17.0891 9.76227 17.0316 9.6761 16.959 9.60352C16.8864 9.53093 16.8002 9.47335 16.7054 9.43407C16.6105 9.39478 16.5089 9.37457 16.4062 9.37457C16.3036 9.37457 16.202 9.39478 16.1071 9.43407C16.0123 9.47335 15.9261 9.53093 15.8535 9.60352L13.2812 12.1768V3.125C13.2812 2.9178 13.1989 2.71909 13.0524 2.57257C12.9059 2.42606 12.7072 2.34375 12.5 2.34375C12.2928 2.34375 12.0941 2.42606 11.9476 2.57257C11.8011 2.71909 11.7188 2.9178 11.7188 3.125V12.1768L9.14648 9.60352C8.99989 9.45692 8.80107 9.37457 8.59375 9.37457C8.38643 9.37457 8.18761 9.45692 8.04102 9.60352C7.89442 9.75011 7.81207 9.94893 7.81207 10.1562C7.81207 10.3636 7.89442 10.5624 8.04102 10.709L11.9473 14.6152Z"
+          fill="white" />
+      </svg>
+      <h3>Download PDF</h3>
+    </button>
+  </nav>
+  <div class="main-container">
+    <div class="container">
+      <div class="card-preview">
+        <img id="card-image" src="" alt="Card Preview" />
+        <div id="text-overlay"></div>
+        <div id="pagination-buttons">
+          <button id="back-page">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20.7083 25.2931C20.8012 25.386 20.8749 25.4963 20.9252 25.6177C20.9755 25.7391 21.0013 25.8692 21.0013 26.0006C21.0013 26.132 20.9755 26.2621 20.9252 26.3835C20.8749 26.5048 20.8012 26.6151 20.7083 26.7081C20.6154 26.801 20.5051 26.8747 20.3837 26.9249C20.2623 26.9752 20.1322 27.0011 20.0008 27.0011C19.8694 27.0011 19.7393 26.9752 19.6179 26.9249C19.4965 26.8747 19.3862 26.801 19.2933 26.7081L9.29329 16.7081C9.20031 16.6152 9.12655 16.5049 9.07623 16.3835C9.0259 16.2621 9 16.132 9 16.0006C9 15.8691 9.0259 15.739 9.07623 15.6176C9.12655 15.4962 9.20031 15.3859 9.29329 15.2931L19.2933 5.29306C19.4809 5.10542 19.7354 5 20.0008 5C20.2662 5 20.5206 5.10542 20.7083 5.29306C20.8959 5.4807 21.0013 5.73519 21.0013 6.00056C21.0013 6.26592 20.8959 6.52042 20.7083 6.70806L11.4145 16.0006L20.7083 25.2931Z"
+                fill="#989898" />
+            </svg>
+          </button>
+          <button id="next-page">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M11.2917 25.2931C11.1988 25.386 11.1251 25.4963 11.0748 25.6177C11.0245 25.7391 10.9987 25.8692 10.9987 26.0006C10.9987 26.132 11.0245 26.2621 11.0748 26.3835C11.1251 26.5048 11.1988 26.6151 11.2917 26.7081C11.3846 26.801 11.4949 26.8747 11.6163 26.9249C11.7377 26.9752 11.8678 27.0011 11.9992 27.0011C12.1306 27.0011 12.2607 26.9752 12.3821 26.9249C12.5035 26.8747 12.6138 26.801 12.7067 26.7081L22.7067 16.7081C22.7997 16.6152 22.8734 16.5049 22.9238 16.3835C22.9741 16.2621 23 16.132 23 16.0006C23 15.8691 22.9741 15.739 22.9238 15.6176C22.8734 15.4962 22.7997 15.3859 22.7067 15.2931L12.7067 5.29306C12.5191 5.10542 12.2646 5 11.9992 5C11.7338 5 11.4794 5.10542 11.2917 5.29306C11.1041 5.4807 10.9987 5.73519 10.9987 6.00056C10.9987 6.26592 11.1041 6.52042 11.2917 6.70806L20.5855 16.0006L11.2917 25.2931Z"
+                fill="#989898" />
+            </svg>
+          </button>
+        </div>
+        <div id="page_number" class="pageNumber"></div>
+      </div>
+
+
+      <div class="form-area">
+        <div id="form-fields"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2 style="text-align: center; font-size: 18px; color: #555;">Edit Details</h2>
+      <div style="display: flex; align-items: flex-start; gap: 30px; margin-bottom: 25px;">
+        <div
+          style="flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 30px;">
+          <input type="text" id="modalLabelInput" class="label-box" placeholder="Name" readonly />
+          <span style="margin-top: 8px; color: #4e9459; font-size: 20px;">⋮</span>
+        </div>
+        <div style="flex: 2;">
+          <div class="rich-editor">
+            <div class="toolbar">
+              <button><b>B</b></button>
+              <button><i>I</i></button>
+              <button><u>U</u></button>
+              <select>
+                <option>English</option>
+                <option>Hindi</option>
+              </select>
+            </div>
+            <textarea id="modalValueInput" class="editor-input"></textarea>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- downloadBtn-modal -->
+  <div id="downloadModal" class="modal2 hidden">
+    <div class="modal2-content">
+      <div class="download-section">
+        <div class="back-btn">
+          <svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 19L1 10L9 1" stroke="#666666" stroke-width="1.7" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="thank-you-text">Thanks for choosing our service</div>
+        <button class="contact-btn">Contact Us <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" /></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card-preview2">
+          <div class="image-wrapper">
+            <img src="" alt="Wedding Card Preview" />
+            <img class="image-overlay" src="./assets/Mask group.svg" alt="Watermark" style="height: auto;">
+            <img class="image-overlay" src="./assets/Mask group.svg" alt="Watermark"
+              style="height: auto;     margin-top: 389px; left: -2px;">
+            <div class="divider"></div>
+          </div>
+          <div class="image-labels">
+            <div>With Watermark</div>
+            <div class="divider" style="top: -5px;"></div>
+            <div>Watermark Free</div>
+          </div>
+        </div>
+        <div class="action-box">
+          <button class="btn-sample" id="DownloadPdf">Download Sample</button>
+          <div class="Saperate-OR">OR</div>
+          <button class="btn-purchase">Purchase Now</button>
+          <ul class="features">
+            <li>Instant Download</li>
+            <li>Watermark Free Invite</li>
+            <li>3 Free edit after purchase</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">**Watermark will remove after purchase**</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("bakcBtnMain").addEventListener("click", function () {
+      window.location.href = "../index.html";
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    document.getElementById("DownloadPdf").addEventListener("click", async () => {
+      const { jsPDF } = window.jspdf;
+
+      const template = {
+        imageUrl: "assets/Bio Data.jpg",
+        container: {
+          top: "12%",
+          left: "18%",
+          width: "64%",
+          height: "405px",
+          gap: "10px"
+        },
+        style: {
+          fontColor: ["#660000", "#000000"],
+          fontFamily: ["Georgia, serif", "Poppins, sans-serif"],
+          fontWeight: ["bold", "normal"]
+        }
+      };
+
+      const pages = Array.from(document.querySelectorAll(".overlay-page"));
+      if (pages.length === 0) {
+        alert("No pages found!");
+        return;
+      }
+
+      pages.forEach(p => p.style.display = "block");
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: [595, 842], 
+      });
+
+      for (let i = 0; i < pages.length; i++) {
+        const page = pages[i];
+
+        const bgImg = document.createElement("img");
+        bgImg.src = template.imageUrl;
+        Object.assign(bgImg.style, {
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: "1",
+          pointerEvents: "none"
+        });
+        bgImg.className = "dynamic-bg";
+        page.style.position = "relative";
+        page.insertBefore(bgImg, page.firstChild);
+
+        const textContainer = document.createElement("div");
+        Object.assign(textContainer.style, {
+          position: "absolute",
+          top: template.container.top,
+          left: template.container.left,
+          width: template.container.width,
+          height: template.container.height,
+          display: "flex",
+          flexDirection: "column",
+          gap: template.container.gap,
+          zIndex: "2",
+          fontFamily: template.style.fontFamily[0],
+          color: template.style.fontColor[0],
+          fontWeight: template.style.fontWeight[0],
+          fontSize: "14px"
+        });
+
+        const sampleData = [
+          { label: "Name", value: "Ganesh Dholi" },
+          { label: "Date of Birth", value: "01 Jan 2000" },
+          { label: "Occupation", value: "Cybersecurity Analyst" },
+          { label: "Location", value: "Rajasthan, India" }
+        ];
+
+        sampleData.forEach(item => {
+          const field = document.createElement("div");
+          field.textContent = `${item.label}: ${item.value}`;
+          textContainer.appendChild(field);
+        });
+
+        page.appendChild(textContainer);
+
+        if (!bgImg.complete) {
+          await new Promise(res => {
+            bgImg.onload = res;
+            bgImg.onerror = res;
+          });
+        }
+
+        const canvas = await html2canvas(page, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: null
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = 595;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+        const addedBG = page.querySelector(".dynamic-bg");
+        if (addedBG) page.removeChild(addedBG);
+        page.removeChild(textContainer);
+      }
+
+      pages.forEach((p, i) => {
+        p.style.display = i === 0 ? "flex" : "none";
+      });
+
+      pdf.save("template-preview.pdf");
+    });
+  </script>
+
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>

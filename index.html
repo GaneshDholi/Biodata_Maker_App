@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marriage Biodata Maker</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .tilt-card {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            transform: rotateX(var(--x-rotation, 0deg)) rotateY(var(--y-rotation, 0deg));
+            will-change: transform, transform-origin;
+            perspective: 1000px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .tilt-card:hover {
+            transform: rotateX(var(--x-rotation)) rotateY(var(--y-rotation)) scale(1.1);
+        }
+
+        .tilt-card::before {
+            content: "";
+            position: absolute;
+            top: var(--shine-y, 50%);
+            left: var(--shine-x, 50%);
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle at center,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.2) 30%,
+                    transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: background 0.2s ease, opacity 0.2s ease;
+            opacity: 1;
+            z-index: 2;
+        }
+
+
+        .tilt-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.05) 0%,
+                    rgba(255, 255, 255, 0.08) 25%,
+                    transparent 60%);
+            transform: rotate(15deg) translate(-25%, -25%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+
+        .tilt-card img {
+            width: 102%;
+            height: 102%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <a href="/"><img src="./assets/image/celebrare-logo.webp" alt="Celebrare Logo" /></a>
+                </div>
+                <div class="login">Login</div>
+            </div>
+            <div class="navigation-container">
+                <div class="navigation">
+                    <div class="nav-content">PDF Invites</div>
+                    <div class="nav-content">Video Invites</div>
+                    <div class="nav-content">PhotoSharing</div>
+                    <div class="nav-content">Greeting cards</div>
+                    <div class="nav-content">Whatsapp Notify</div>
+                    <div class="nav-content">Bio Data</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section class="container">
+        <h1>Online Marriage Biodata Maker</h1>
+        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
+
+        <div class="three-card-wrapper">
+            <div class="head-cards">
+                <div class="head-card head-card1" style="left: 108.9px; top: -21px;">
+                    <span class="label left">
+                        <p>Personalized Theme</p>
+                    </span>
+                    <span class="label-arrow leftone">
+                        <img src="./assets/icons/imageleftarrow.png" alt="leftarrow" class="leftarrow">
+                    </span>
+                </div>
+                <div class="head-card head-card2" style="top: -81px; left: 337px;"></div>
+                <div class="head-card head-card3" style="left: 581px; top: -26px;">
+                    <span class="label right">
+                        <p>Customized Theme</p>
+                    </span>
+                    <span class="label-arrow rightone">
+                        <img src="./assets/icons/imagerightarrow.png" alt="rightarrow" class="rightarrow">
+                    </span>
+                </div>
+            </div>
+
+            <div class="buttonoftry">
+                <button class="try-now-btn">
+                    <span>Try now for free</span>
+                    <div class="circle">
+                        <img src="./assets/image/arrow.png" alt="arrow" />
+                    </div>
+                </button>
+            </div>
+        </div>
+    </section>
+    <section class="templates">
+        <h1> Biodata templates</h1>
+        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+            <br>simply dummy text of the printing and typesetting industry.
+        </p>
+        <div class="swiper-container">
+            <div class="swiper-section" id="swiperSection">
+                <div class="swiper mySwiper" style="padding: 30px; width: 100%;">
+                    <div class="swiper-wrapper" id="swiperWrapper" style="height: 460px;">
+                        <!-- dynamic -->
+                        <div id="loader" class="lotifile-loader">
+                            <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_usmfx6bp.json"
+                                background="transparent" speed="1" loop autoplay
+                                style="width: 150px; height: 150px;"></lottie-player>
+                        </div>
+                    </div>
+                    <div class="pagewithbutton">
+                        <button id="exploreBtn" class="toggle-btn">
+                            <span>Explore All</span>
+                            <div class="circle">
+                                <img src="./assets/icons/greenarrow.png" alt="arrow" />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-section" id="gridSection">
+                <div class="card-grid" id="cardGrid">
+                    <!-- dynamic -->
+                </div>
+
+                <div class="pagination-controls" id="paginationControls">
+                    <button id="prevPage" class="pagination-btn arrow-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"
+                            fill="#727272">
+                            <path
+                                d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="pagination-indicator">
+                        <span id="pageIndicator" class="page-indicator active">1</span>
+                        <span class="dots">. . .</span>
+                    </div>
+                    <button id="nextPage" class="pagination-btn arrow-btn ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"
+                            fill="#727272">
+                            <path
+                                d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <button id="showLessBtn" class="toggle-btn">
+                    <span>Show less</span>
+                    <div class="circle">
+                        <img src="./assets/icons/greenarrow.png" alt="arrow" />
+                    </div>
+                </button>
+            </div>
+
+        </div>
+    </section>
+    <!-- Lottie Loader -->
+
+
+    <section class="help-section">
+        <h2 class="help-title">How to Create your Biodata</h2>
+        <p class="help-subtitle">
+            simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s<br>
+            simply dummy text of the printing and typesetting industry.
+        </p>
+
+        <div class="help-steps-container">
+            <div class="help-step-box help-step1">
+                <img src="/assets/icons/biodata-template.png" alt="biodata templates" class="help-stepbox-icon">
+                <p class="help-stepbox-text">Select the Biodata<br>Template</p>
+            </div>
+            <div class="help-step-box help-step2">
+                <img src="./assets/icons/details.png" alt="details of biodata" class="help-stepbox-icon">
+                <p class="help-stepbox-text">Enter Details &<br>Photos</p>
+            </div>
+            <div class="help-step-box help-step3">
+                <img src="./assets/icons/download.png" alt="downolad and share biodata" class="help-stepbox-icon">
+                <p class="help-stepbox-text">Download &<br>Share Instantly</p>
+            </div>
+        </div>
+
+        <button id="createBtn" class="toggle-btn">
+            <span style="margin-left: 9px;">Create Now</span>
+            <div class="circle">
+                <img src="./assets/icons/greenarrow.png" alt="arrow" />
+            </div>
+        </button>
+    </section>
+    <section class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq">
+            <div class="faq-header">
+                Do I get access to future icon updates with my plan?
+                <img src="./assets/icons/add-on.png" alt="answer seen" class="icon">
+            </div>
+            <div class="faq-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis totam provident aliquid.
+            </div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-header">
+                Can I customize the icons?
+                <img src="./assets/icons/add-on.png" alt="answer seen" class="icon">
+            </div>
+            <div class="faq-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis totam provident aliquid.
+            </div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-header">
+                What formats are available for 3D and animated icons?
+                <img src="./assets/icons/add-on.png" alt="answer seen" class="icon">
+            </div>
+            <div class="faq-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis totam provident aliquid.
+            </div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-header">
+                Will more formats be added in the future?
+                <img src="./assets/icons/add-on.png" alt="answer seen" class="icon">
+            </div>
+            <div class="faq-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis totam provident aliquid.
+            </div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-header">
+                Do I get access to future icon updates with my plan?
+                <img src="./assets/icons/add-on.png" alt="answer seen" class="icon">
+            </div>
+            <div class="faq-body">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis totam provident aliquid.
+            </div>
+        </div>
+
+        <button id="exploreBtn" class="toggle-btn contact-us">
+            <span>Contact Us</span>
+            <img src="./assets/icons/whitearrow.png" alt="arrow" />
+        </button>
+    </section>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="logo">
+                    <img src="./assets/image/footer-logo.webp" alt="Logo" />
+                </div>
+                <p>We specialize in transforming your wedding memories into timeless treasures, you can experience
+                    seamless integration of technology and heartfelt memories.</p>
+
+                <h1 class="follow-text">Stay Connected, Follow us on</h1>
+                <div class="social-icons">
+                    <a href="#">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_3206_3281)">
+                                <path
+                                    d="M2.25437 16.2008H4.95437V6.21078H2.25437V16.2008ZM3.60437 1.80078C2.70437 1.80078 1.98438 2.52078 1.98438 3.42078C1.98438 4.32078 2.70437 5.04078 3.60437 5.04078C4.50437 5.04078 5.22438 4.32078 5.22438 3.42078C5.22438 2.52078 4.50437 1.80078 3.60437 1.80078ZM9.54438 7.74078V6.21078H6.84437V16.2008H9.54438V11.0708C9.54438 8.19078 13.2344 8.01078 13.2344 11.0708V16.2008H15.9344V10.0808C15.9344 5.22078 10.8044 5.40078 9.54438 7.74078Z"
+                                    fill="white" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_3206_3281">
+                                    <rect width="18" height="18" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg width="14" height="20" viewBox="0 0 14 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_3206_3249)">
+                                <g clip-path="url(#clip1_3206_3249)">
+                                    <path
+                                        d="M8.0698 7.54756H12.4697L11.9809 9.50312H8.0698V18.3031H6.11424V9.50312H2.20312V7.54756H6.11424V5.71716C6.11424 3.97379 6.2961 3.34116 6.63637 2.70366C6.9698 2.07378 7.48488 1.55869 8.11477 1.22526C8.75228 0.884992 9.3849 0.703125 11.1283 0.703125C11.6387 0.703125 12.0865 0.752014 12.4697 0.849792V2.65868H11.1283C9.8337 2.65868 9.43965 2.73495 9.03778 2.95006C8.74054 3.10846 8.51957 3.32944 8.36117 3.62668C8.14605 4.02855 8.0698 4.42259 8.0698 5.71716V7.54756Z"
+                                        fill="white" stroke="white" stroke-width="0.926316" />
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_3206_3249">
+                                    <rect width="12.7368" height="19.6842" fill="white"
+                                        transform="translate(0.632812 0.15625)" />
+                                </clipPath>
+                                <clipPath id="clip1_3206_3249">
+                                    <rect width="12.7368" height="19.6842" fill="white"
+                                        transform="translate(0.632812 0.15625)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_3206_3255)">
+                                <g clip-path="url(#clip1_3206_3255)">
+                                    <path
+                                        d="M18.1442 4.16456C18.1442 4.16456 17.9818 3.01435 17.4818 2.50931C16.8488 1.84461 16.141 1.84135 15.8164 1.80224C13.4919 1.63281 10.0019 1.63281 10.0019 1.63281H9.99536C9.99536 1.63281 6.50534 1.63281 4.18083 1.80224C3.85618 1.84135 3.14843 1.84461 2.51536 2.50931C2.0154 3.01435 1.85632 4.16456 1.85632 4.16456C1.85632 4.16456 1.6875 5.51677 1.6875 6.86573V8.12996C1.6875 9.47894 1.85307 10.8311 1.85307 10.8311C1.85307 10.8311 2.0154 11.9813 2.51212 12.4863C3.14519 13.1511 3.9763 13.1283 4.34641 13.2C5.67748 13.327 9.99861 13.3661 9.99861 13.3661C9.99861 13.3661 13.4919 13.3596 15.8164 13.1935C16.141 13.1543 16.8488 13.1511 17.4818 12.4863C17.9818 11.9813 18.1442 10.8311 18.1442 10.8311C18.1442 10.8311 18.3097 9.48219 18.3097 8.12996V6.86573C18.3097 5.51677 18.1442 4.16456 18.1442 4.16456ZM8.28121 9.66465V4.97588L12.7711 7.32841L8.28121 9.66465Z"
+                                        fill="white" />
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_3206_3255">
+                                    <rect width="18.5263" height="12.7368" fill="white"
+                                        transform="translate(0.734375 0.632812)" />
+                                </clipPath>
+                                <clipPath id="clip1_3206_3255">
+                                    <rect width="18.5263" height="12.7368" fill="white"
+                                        transform="translate(0.734375 0.632812)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_3206_3259)">
+                                <g clip-path="url(#clip1_3206_3259)">
+                                    <g clip-path="url(#clip2_3206_3259)">
+                                        <path
+                                            d="M14.9992 4.28768C14.7871 4.28768 14.5797 4.35058 14.4034 4.46844C14.227 4.58628 14.0895 4.75378 14.0083 4.94976C13.9271 5.14573 13.9059 5.36138 13.9473 5.56942C13.9886 5.77747 14.0907 5.96857 14.2408 6.11856C14.3909 6.26854 14.5819 6.3707 14.79 6.41209C14.9979 6.45346 15.2137 6.43222 15.4096 6.35104C15.6056 6.26987 15.773 6.13241 15.8909 5.95604C16.0088 5.77967 16.0717 5.5723 16.0717 5.36018C16.0717 5.07574 15.9588 4.80295 15.7575 4.60181C15.5564 4.40068 15.2836 4.28768 14.9992 4.28768ZM19.1104 6.45056C19.0931 5.70901 18.9542 4.97534 18.6993 4.27875C18.4721 3.68274 18.1183 3.14305 17.6626 2.69681C17.2199 2.2387 16.6791 1.88723 16.0806 1.669C15.3858 1.40638 14.6514 1.26432 13.9088 1.24894C12.9614 1.19531 12.6576 1.19531 10.2266 1.19531C7.79557 1.19531 7.49169 1.19531 6.54431 1.24894C5.80174 1.26432 5.06725 1.40638 4.37249 1.669C3.77519 1.88944 3.2347 2.24061 2.79057 2.69681C2.33245 3.13938 1.98098 3.68033 1.76275 4.27875C1.50013 4.97351 1.35807 5.70798 1.34269 6.45056C1.28906 7.39794 1.28906 7.70182 1.28906 10.1328C1.28906 12.5638 1.28906 12.8677 1.34269 13.8151C1.35807 14.5576 1.50013 15.2922 1.76275 15.9869C1.98098 16.5853 2.33245 17.1263 2.79057 17.5688C3.2347 18.025 3.77519 18.3761 4.37249 18.5966C5.06725 18.8593 5.80174 19.0013 6.54431 19.0167C7.49169 19.0703 7.79557 19.0703 10.2266 19.0703C12.6576 19.0703 12.9614 19.0703 13.9088 19.0167C14.6514 19.0013 15.3858 18.8593 16.0806 18.5966C16.6791 18.3784 17.2199 18.0269 17.6626 17.5688C18.1204 17.1242 18.4744 16.584 18.6993 15.9869C18.9542 15.2902 19.0931 14.5567 19.1104 13.8151C19.1104 12.8677 19.164 12.5638 19.164 10.1328C19.164 7.70182 19.164 7.39794 19.1104 6.45056ZM17.5017 13.7078C17.4952 14.2752 17.3925 14.8372 17.1978 15.3702C17.0551 15.7592 16.8259 16.1106 16.5275 16.398C16.2376 16.6935 15.8869 16.9221 15.4997 17.0683C14.9668 17.2629 14.4046 17.3656 13.8373 17.3722C12.9436 17.4169 12.6129 17.4258 10.2623 17.4258C7.91175 17.4258 7.58107 17.4258 6.68731 17.3722C6.09823 17.3832 5.51168 17.2924 4.95343 17.1041C4.58323 16.9505 4.24859 16.7223 3.97031 16.4337C3.67367 16.1467 3.44732 15.7949 3.30893 15.4059C3.09073 14.8654 2.96971 14.2905 2.95143 13.7078C2.95143 12.8141 2.89781 12.4834 2.89781 10.1328C2.89781 7.78225 2.89781 7.45156 2.95143 6.55782C2.95544 5.97782 3.06132 5.40304 3.26425 4.85968C3.4216 4.48244 3.6631 4.14617 3.97031 3.87656C4.24185 3.56927 4.57743 3.32521 4.95343 3.16156C5.49822 2.96497 6.07241 2.86222 6.65157 2.85768C7.54531 2.85768 7.87599 2.80406 10.2266 2.80406C12.5771 2.80406 12.9078 2.80406 13.8016 2.85768C14.369 2.86419 14.931 2.96694 15.464 3.16156C15.8701 3.3123 16.2346 3.55737 16.5275 3.87656C16.8205 4.1511 17.0493 4.48675 17.1978 4.85968C17.3965 5.40392 17.4993 5.97847 17.5017 6.55782C17.5464 7.45156 17.5553 7.78225 17.5553 10.1328C17.5553 12.4834 17.5464 12.8141 17.5017 13.7078ZM10.2266 5.54788C9.32013 5.54964 8.43456 5.82004 7.68175 6.32491C6.92893 6.82978 6.34266 7.54647 5.99702 8.38441C5.65137 9.22235 5.56183 10.144 5.73976 11.0328C5.91767 11.9216 6.35505 12.7376 6.99662 13.3779C7.63819 14.0184 8.45516 14.4542 9.3443 14.6303C10.2334 14.8066 11.1549 14.7151 11.9922 14.3678C12.8294 14.0206 13.545 13.4329 14.0483 12.6792C14.5517 11.9253 14.8204 11.0392 14.8204 10.1328C14.8216 9.52962 14.7035 8.93216 14.4729 8.37478C14.2425 7.81738 13.904 7.31108 13.477 6.88497C13.0501 6.45887 12.5431 6.12137 11.9853 5.89191C11.4274 5.66244 10.8297 5.54552 10.2266 5.54788ZM10.2266 13.109C9.63793 13.109 9.06252 12.9345 8.57308 12.6075C8.08365 12.2804 7.70218 11.8156 7.47693 11.2717C7.25166 10.7279 7.19272 10.1295 7.30756 9.55218C7.4224 8.97485 7.70585 8.44455 8.12208 8.02833C8.5383 7.6121 9.0686 7.32865 9.64594 7.21381C10.2233 7.09897 10.8217 7.15791 11.3655 7.38318C11.9094 7.60843 12.3742 7.9899 12.7011 8.47933C13.0281 8.96876 13.2027 9.54418 13.2027 10.1328C13.2027 10.5237 13.1257 10.9107 12.9763 11.2717C12.8267 11.6328 12.6073 11.9609 12.3311 12.2373C12.0547 12.5137 11.7266 12.7329 11.3655 12.8825C11.0044 13.032 10.6174 13.109 10.2266 13.109Z"
+                                            fill="white" />
+                                    </g>
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_3206_3259">
+                                    <rect width="19.6842" height="18.5263" fill="white"
+                                        transform="translate(0.15625 0.734375)" />
+                                </clipPath>
+                                <clipPath id="clip1_3206_3259">
+                                    <rect width="19.6842" height="18.5263" fill="white"
+                                        transform="translate(0.15625 0.734375)" />
+                                </clipPath>
+                                <clipPath id="clip2_3206_3259">
+                                    <rect width="19.6842" height="18.5263" fill="white"
+                                        transform="translate(0.15625 0.734375)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-middle">
+                <div class="linkitem-title">
+                    <img src="assets/icons/link.png" alt="link">
+                    <h3>Quick Links</h3>
+                </div>
+                <div class="divider">
+                    <div class="background">
+                        <div class="active" style="top: 14.2857%;"></div>
+                    </div>
+                </div>
+                <div class="linkitems">
+                    <ul class="vertical-menu">
+                        <li class="menu-item active">PDF Invites</li>
+                        <li class="menu-item">Video Invites</li>
+                        <li class="menu-item">Photosharing</li>
+                        <li class="menu-item">Invite sender</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="linkitem-title" style="justify-content: start; align-items: normal;">
+                    <img src="assets/icons/contact.png" alt="link">
+                    <h3>Contact Us</h3>
+                </div>
+                <div class="divider2">
+                    <div class="background">
+                        <div class="active" style="top: 14.2857%;"></div>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="labels">
+                        <p class="footer-label">Call Us</p>
+                        <p class="footer-value">+91-80059 93442</p>
+                    </div>
+                    <div class="labels">
+                        <p class="footer-label">Email At</p>
+                        <p class="footer-value">support@celebrare.in</p>
+                    </div>
+                    <div class="labels">
+                        <p class="footer-label">About Us</p>
+                        <p class="footer-value footer-underline">About our team</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="goontop">
+            <button class="scroll-top">
+                <img src="./assets/icons/gototop.png" alt="goto top">
+            </button>
+        </div>
+        <div class="footer-bottom">
+            <p>All rights reserved by © <span class="highlight">Celebrare</span></p>
+            <div class="policies">
+                <a href="#">Privacy Policy</a>
+                <span>•</span>
+                <a href="#">Refund & Cancellation Policy</a>
+                <span>•</span>
+                <a href="#">Terms & Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("createBtn").addEventListener("click", () => {
+            window.location.href = "main/index.html";
+        });
+        document.querySelector(".try-now-btn").addEventListener("click", () => {
+            window.location.href = "./main/index.html";
+        });
+    </script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+    <script src="./script.js"></script>
+
+</body>
+
+</html>
