@@ -44,6 +44,7 @@ body {
   width: 82%;
   image-rendering: auto;
   max-width: 200px;
+  cursor: default;
 }
 
 .logo-container .login {
@@ -96,6 +97,7 @@ body {
 .nav-content {
   font-size: 1em;
   color: #727272;
+  cursor: pointer;
 }
 
 .container h1 {

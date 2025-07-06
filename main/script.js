@@ -116,6 +116,9 @@ function renderTemplate(index) {
 
   function createNewPage() {
     const page = createOverlayPage();
+    page.style.display = "flex";
+    page.style.flexDirection = "column";
+    page.style.alignItems = "flex-start";
     pages.push(page);
     textOverlay.appendChild(page);
     return page;
@@ -158,6 +161,12 @@ function renderTemplate(index) {
         valueSpan.id = previewId;
         field.previewId = previewId;
         valueSpan.textContent = field.value || "";
+
+        valueSpan.style.whiteSpace = "nowrap";
+        valueSpan.style.wordBreak = "break-word";
+        valueSpan.style.overflowWrap = "break-word";
+        valueSpan.style.maxWidth = "100%";
+        valueSpan.style.display = "block";
         Object.assign(valueSpan.style, field.valueStyle);
 
         line.appendChild(labelSpan);
@@ -347,28 +356,213 @@ function renderTemplate(index) {
         const row = document.createElement("div");
         row.className = "form-row";
 
-        const inputType = field.label.toLowerCase().includes("date")
-          ? "date"
-          : "text";
+        const rashiArray = [
+          "Mesh (Aries)",
+          "Vrishabh (Taurus)",
+          "Mithun (Gemini)",
+          "Karka (Cancer)",
+          "Simha (Leo)",
+          "Kanya (Virgo)",
+          "Tula (Libra)",
+          "Vrischik (Scorpio)",
+          "Dhanu (Sagittarius)",
+          "Makar (Capricorn)",
+          "Kumbh (Aquarius)",
+          "Meen (Pisces)"
+        ];
+
+        const nakshatraArray = [
+          "Ashwini",
+          "Bharani",
+          "Krittika",
+          "Rohini",
+          "Mrigashira",
+          "Ardra",
+          "Punarvasu",
+          "Pushya",
+          "Ashlesha",
+          "Magha",
+          "Purva Phalguni",
+          "Uttara Phalguni",
+          "Hasta",
+          "Chitra",
+          "Swati",
+          "Vishakha",
+          "Anuradha",
+          "Jyeshtha",
+          "Mula",
+          "Purva Ashadha",
+          "Uttara Ashadha",
+          "Shravana",
+          "Dhanishta",
+          "Shatabhisha",
+          "Purva Bhadrapada",
+          "Uttara Bhadrapada",
+          "Revati"
+        ];
+
+        const complexionArray = [
+          "Very Fair",
+          "Fair",
+          "Medium",
+          "Wheatish",
+          "Brown",
+          "Dusky",
+          "Dark"
+        ];
+
+        const heightArray = [
+          "3 feet 5 inches",
+          "3 feet 6 inches",
+          "3 feet 7 inches",
+          "3 feet 8 inches",
+          "3 feet 9 inches",
+          "3 feet 10 inches",
+          "3 feet 11 inches",
+          "4 feet",
+          "4 feet 1 inch",
+          "4 feet 2 inches",
+          "4 feet 3 inches",
+          "4 feet 4 inches",
+          "4 feet 5 inches",
+          "4 feet 6 inches",
+          "4 feet 7 inches",
+          "4 feet 8 inches",
+          "4 feet 9 inches",
+          "4 feet 10 inches",
+          "4 feet 11 inches",
+          "5 feet",
+          "5 feet 1 inch",
+          "5 feet 2 inches",
+          "5 feet 3 inches",
+          "5 feet 4 inches",
+          "5 feet 5 inches",
+          "5 feet 6 inches",
+          "5 feet 7 inches",
+          "5 feet 8 inches",
+          "5 feet 9 inches",
+          "5 feet 10 inches",
+          "5 feet 11 inches",
+          "6 feet",
+          "6 feet 1 inch",
+          "6 feet 2 inches",
+          "6 feet 3 inches",
+          "6 feet 4 inches",
+          "6 feet 5 inches",
+          "6 feet 6 inches",
+          "6 feet 7 inches",
+          "6 feet 8 inches",
+          "6 feet 9 inches",
+          "6 feet 10 inches",
+          "6 feet 11 inches",
+          "7 feet",
+          "7 feet 1 inch",
+          "7 feet 2 inches",
+          "7 feet 3 inches",
+          "7 feet 4 inches",
+          "7 feet 5 inches",
+          "7 feet 6 inches",
+          "7 feet 7 inches",
+          "7 feet 8 inches",
+          "7 feet 9 inches",
+          "7 feet 10 inches",
+          "7 feet 11 inches",
+          "8 feet"
+        ];
+
+        let inputType = "text";
+        let isRashiDropdown = false;
+        let isNakshatraDropdown = false;
+        let isComplexionDropdown = false;
+        let isHeightDropdown = false;
+
+        //fild dropdown
+        if (formIndex === 1) {
+          inputType = "date";
+        } else if (formIndex === 2) {
+          inputType = "time";
+        } else if (formIndex === 4) {
+          isRashiDropdown = true;
+        } else if (formIndex === 5) {
+          isNakshatraDropdown = true;
+        } else if (formIndex === 6) {
+          isComplexionDropdown = true;
+        } else if (formIndex === 7) {
+          isHeightDropdown = true;
+        }
+
+        // Label-based fallback
+        if (field.label.toLowerCase().includes("rashi")) {
+          isRashiDropdown = true;
+        } else if (field.label.toLowerCase().includes("nakshatra")) {
+          isNakshatraDropdown = true;
+        } else if (field.label.toLowerCase().includes("complexion")) {
+          isComplexionDropdown = true;
+        } else if (field.label.toLowerCase().includes("height")) {
+          isHeightDropdown = true;
+        } else if (field.label.toLowerCase().includes("date")) {
+          inputType = "date";
+        }
+
+        //dropdown
+        let inputFieldHtml = "";
+        if (isRashiDropdown) {
+          inputFieldHtml = `
+        <select class="input-value" data-value="${formIndex}">
+          <option value="">Select Rashi</option>
+          ${rashiArray.map(rashi => `
+          <option value="${rashi}" ${field.value === rashi ? "selected" : ""}>${rashi}</option>
+          `).join("")}
+        </select>
+        `;
+        } else if (isNakshatraDropdown) {
+          inputFieldHtml = `
+        <select class="input-value" data-value="${formIndex}">
+          <option value="">Select Nakshatra</option>
+          ${nakshatraArray.map(nakshatra => `
+          <option value="${nakshatra}" ${field.value === nakshatra ? "selected" : ""}>${nakshatra}</option>
+          `).join("")}
+        </select>
+        `;
+        } else if (isComplexionDropdown) {
+          inputFieldHtml = `
+        <select class="input-value" data-value="${formIndex}">
+          <option value="">Select Complexion</option>
+          ${complexionArray.map(complexion => `
+          <option value="${complexion}" ${field.value === complexion ? "selected" : ""}>${complexion}</option>
+          `).join("")}
+        </select>
+        `;
+        } else if (isHeightDropdown) {
+          inputFieldHtml = `
+        <select class="input-value" data-value="${formIndex}">
+          <option value="">Select Height</option>
+          ${heightArray.map(height => `
+          <option value="${height}" ${field.value === height ? "selected" : ""}>${height}</option>
+          `).join("")}
+        </select>
+        `;
+        } else {
+          inputFieldHtml = `
+        <input type="${inputType}" class="input-value" value="${field.value}" data-value="${formIndex}">
+        `;
+        }
 
         row.innerHTML = `
         <label class="switch">
-          <input type="checkbox" ${field.hidden ? "" : "checked"
-          } data-toggle="${formIndex}">
-          <span class="slider"></span>
+        <input type="checkbox" ${field.hidden ? "" : "checked"} data-toggle="${formIndex}">
+        <span class="slider"></span>
         </label>
         <div class="input-icon-wrapper">
-          <input type="text" class="input-label" value="${field.label
-          }" data-label="${formIndex}" disabled>
-          <button class="edit-btn">
-            <svg class="label-icon" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15.0955 5.15866L12.1278 2.0171C12.0291 1.9126 11.912 1.82971 11.783 1.77316C11.6541 1.71661 11.5159 1.6875 11.3764 1.6875C11.2368 1.6875 11.0987 1.71661 10.9697 1.77316C10.8408 1.82971 10.7237 1.9126 10.625 2.0171L2.43645 10.6873C2.33736 10.7914 2.2588 10.9153 2.20533 11.0518C2.15186 11.1884 2.12456 11.3348 2.12501 11.4826V14.6248C2.12501 14.9232 2.23695 15.2093 2.4362 15.4203C2.63546 15.6313 2.90571 15.7498 3.18751 15.7498H14.3438C14.4847 15.7498 14.6198 15.6906 14.7194 15.5851C14.819 15.4796 14.875 15.3365 14.875 15.1873C14.875 15.0381 14.819 14.8951 14.7194 14.7896C14.6198 14.6841 14.4847 14.6248 14.3438 14.6248H7.65797L15.0955 6.74983C15.1942 6.64536 15.2724 6.52133 15.3259 6.38482C15.3793 6.24831 15.4068 6.102 15.4068 5.95424C15.4068 5.80649 15.3793 5.66017 15.3259 5.52367C15.2724 5.38716 15.1942 5.26313 15.0955 5.15866ZM6.1552 14.6248H3.18751V11.4826L9.03126 5.29506L11.999 8.43733L6.1552 14.6248ZM12.75 7.6421L9.78297 4.49983L11.3767 2.81233L14.3438 5.9546L12.75 7.6421Z" fill="#4E9459"/>
-            </svg>
-          </button>
+        <input type="text" class="input-label" value="${field.label}" data-label="${formIndex}" disabled>
+        <button class="edit-btn">
+          <svg class="label-icon" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.0955 5.15866L12.1278 2.0171C12.0291 1.9126 11.912 1.82971 11.783 1.77316C11.6541 1.71661 11.5159 1.6875 11.3764 1.6875C11.2368 1.6875 11.0987 1.71661 10.9697 1.77316C10.8408 1.82971 10.7237 1.9126 10.625 2.0171L2.43645 10.6873C2.33736 10.7914 2.2588 10.9153 2.20533 11.0518C2.15186 11.1884 2.12456 11.3348 2.12501 11.4826V14.6248C2.12501 14.9232 2.23695 15.2093 2.4362 15.4203C2.63546 15.6313 2.90571 15.7498 3.18751 15.7498H14.3438C14.4847 15.7498 14.6198 15.6906 14.7194 15.5851C14.819 15.4796 14.875 15.3365 14.875 15.1873C14.875 15.0381 14.819 14.8951 14.7194 14.7896C14.6198 14.6841 14.4847 14.6248 14.3438 14.6248H7.65797L15.0955 6.74983C15.1942 6.64536 15.2724 6.52133 15.3259 6.38482C15.3793 6.24831 15.4068 6.102 15.4068 5.95424C15.4068 5.80649 15.3793 5.66017 15.3259 5.52367C15.2724 5.38716 15.1942 5.26313 15.0955 5.15866ZM6.1552 14.6248H3.18751V11.4826L9.03126 5.29506L11.999 8.43733L6.1552 14.6248ZM12.75 7.6421L9.78297 4.49983L11.3767 2.81233L14.3438 5.9546L12.75 7.6421Z" fill="#4E9459"/>
+          </svg>
+        </button>
         </div>
         <span>:</span>
-        <input type="${inputType}" class="input-value" value="${field.value
-          }" data-value="${formIndex}">
+        ${inputFieldHtml}
       `;
 
         row.querySelector("[data-value]").addEventListener("input", (e) => {
@@ -701,16 +895,6 @@ document.querySelectorAll(".toolbar button").forEach((btn, index) => {
   });
 });
 
-document.querySelectorAll(".toolbar button").forEach((btn, index) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    if (index === 0) formatText("Bold");
-    else if (index === 1) formatText("*", "*");
-    else if (index === 2) formatText("_", "_");
-  });
-});
-
 // downloadButton modal
 document.addEventListener("DOMContentLoaded", () => {
   const openModalBtn = document.getElementById("downloadBtn");
@@ -753,3 +937,102 @@ document.getElementById("backBtnMain").addEventListener("click", () => {
   window.location.href = "../index.html";
 })
 
+document.getElementById("DownloadPdf").addEventListener("click", async () => {
+  const { jsPDF } = window.jspdf;
+
+  const template = {
+    imageUrl: "assets/Bio Data.jpg",
+    container: {
+      top: "12%",
+      left: "18%",
+      width: "64%",
+      height: "405px",
+      gap: "10px"
+    },
+    style: {
+      fontColor: ["#660000", "#000000"],
+      fontFamily: ["Georgia, serif", "Poppins, sans-serif"],
+      fontWeight: ["bold", "normal"]
+    }
+  };
+
+  const pages = Array.from(document.querySelectorAll(".overlay-page"));
+  if (pages.length === 0) {
+    alert("No pages found!");
+    return;
+  }
+
+  // Show all pages for rendering
+  pages.forEach(p => p.style.display = "block");
+
+  const pdf = new jsPDF({
+    orientation: "portrait",
+    unit: "px",
+    format: [595, 842],
+  });
+
+  for (let i = 0; i < pages.length; i++) {
+    const page = pages[i];
+
+    // Clone the overlay-page to avoid DOM side effects
+    const pageClone = page.cloneNode(true);
+
+    // Remove any dynamic backgrounds from previous runs
+    Array.from(pageClone.querySelectorAll(".dynamic-bg")).forEach(bg => bg.remove());
+
+    // Add background image
+    const bgImg = document.createElement("img");
+    bgImg.src = template.imageUrl;
+    Object.assign(bgImg.style, {
+      position: "absolute",
+      top: "0",
+      left: "0",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      zIndex: "1",
+      pointerEvents: "none"
+    });
+    bgImg.className = "dynamic-bg";
+    pageClone.style.position = "relative";
+    pageClone.insertBefore(bgImg, pageClone.firstChild);
+
+    // Wait for background image to load
+    if (!bgImg.complete) {
+      await new Promise(res => {
+        bgImg.onload = res;
+        bgImg.onerror = res;
+      });
+    }
+
+    // Append the clone to body (off-screen) for html2canvas
+    pageClone.style.position = "absolute";
+    pageClone.style.left = "-9999px";
+    document.body.appendChild(pageClone);
+
+    // Render to canvas
+    const canvas = await html2canvas(pageClone, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: null
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = 595;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    if (i > 0) pdf.addPage();
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    // Remove the clone from DOM
+    document.body.removeChild(pageClone);
+  }
+
+  // Restore original page display
+  pages.forEach((p, i) => {
+    p.style.display = i === 0 ? "flex" : "none";
+  });
+
+  pdf.save("template-preview.pdf");
+});
