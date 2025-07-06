@@ -937,6 +937,7 @@ document.getElementById("backBtnMain").addEventListener("click", () => {
   window.location.href = "../index.html";
 })
 
+//download sample pdf
 document.getElementById("DownloadPdf").addEventListener("click", async () => {
   const { jsPDF } = window.jspdf;
 
@@ -962,7 +963,6 @@ document.getElementById("DownloadPdf").addEventListener("click", async () => {
     return;
   }
 
-  // Show all pages for rendering
   pages.forEach(p => p.style.display = "block");
 
   const pdf = new jsPDF({
@@ -974,13 +974,6 @@ document.getElementById("DownloadPdf").addEventListener("click", async () => {
   for (let i = 0; i < pages.length; i++) {
     const page = pages[i];
 
-    // Clone the overlay-page to avoid DOM side effects
-    const pageClone = page.cloneNode(true);
-
-    // Remove any dynamic backgrounds from previous runs
-    Array.from(pageClone.querySelectorAll(".dynamic-bg")).forEach(bg => bg.remove());
-
-    // Add background image
     const bgImg = document.createElement("img");
     bgImg.src = template.imageUrl;
     Object.assign(bgImg.style, {
@@ -994,10 +987,41 @@ document.getElementById("DownloadPdf").addEventListener("click", async () => {
       pointerEvents: "none"
     });
     bgImg.className = "dynamic-bg";
-    pageClone.style.position = "relative";
-    pageClone.insertBefore(bgImg, pageClone.firstChild);
+    page.style.position = "relative";
+    page.insertBefore(bgImg, page.firstChild);
 
-    // Wait for background image to load
+    const textContainer = document.createElement("div");
+    Object.assign(textContainer.style, {
+      position: "absolute",
+      top: template.container.top,
+      left: template.container.left,
+      width: template.container.width,
+      height: template.container.height,
+      display: "flex",
+      flexDirection: "column",
+      gap: template.container.gap,
+      zIndex: "2",
+      fontFamily: template.style.fontFamily[0],
+      color: template.style.fontColor[0],
+      fontWeight: template.style.fontWeight[0],
+      fontSize: "14px"
+    });
+
+    const sampleData = [
+      { label: "Name", value: "Ganesh Dholi" },
+      { label: "Date of Birth", value: "01 Jan 2000" },
+      { label: "Occupation", value: "Cybersecurity Analyst" },
+      { label: "Location", value: "Rajasthan, India" }
+    ];
+
+    sampleData.forEach(item => {
+      const field = document.createElement("div");
+      field.textContent = `${item.label}: ${item.value}`;
+      textContainer.appendChild(field);
+    });
+
+    page.appendChild(textContainer);
+
     if (!bgImg.complete) {
       await new Promise(res => {
         bgImg.onload = res;
@@ -1005,13 +1029,7 @@ document.getElementById("DownloadPdf").addEventListener("click", async () => {
       });
     }
 
-    // Append the clone to body (off-screen) for html2canvas
-    pageClone.style.position = "absolute";
-    pageClone.style.left = "-9999px";
-    document.body.appendChild(pageClone);
-
-    // Render to canvas
-    const canvas = await html2canvas(pageClone, {
+    const canvas = await html2canvas(page, {
       scale: 2,
       useCORS: true,
       backgroundColor: null
@@ -1025,11 +1043,11 @@ document.getElementById("DownloadPdf").addEventListener("click", async () => {
     if (i > 0) pdf.addPage();
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 
-    // Remove the clone from DOM
-    document.body.removeChild(pageClone);
+    const addedBG = page.querySelector(".dynamic-bg");
+    if (addedBG) page.removeChild(addedBG);
+    page.removeChild(textContainer);
   }
 
-  // Restore original page display
   pages.forEach((p, i) => {
     p.style.display = i === 0 ? "flex" : "none";
   });
