@@ -28,9 +28,16 @@ function showPage(pageIndex) {
     const gridCard = document.createElement("div");
     gridCard.className = "gridscard tilt-card";
     gridCard.setAttribute("data-index", i);
-    gridCard.innerHTML = `
-        <img src="${img}" alt="img${i}">
-      `;
+
+    const imageElem = document.createElement("img");
+    imageElem.src = img;
+    imageElem.alt = `img${i}`;
+    imageElem.setAttribute("draggable", "false");
+    imageElem.style.userSelect = "none";
+    imageElem.addEventListener("contextmenu", (e) => e.preventDefault());
+    imageElem.addEventListener("dragstart", (e) => e.preventDefault());
+
+    gridCard.appendChild(imageElem);
     cardGrid.appendChild(gridCard);
   });
 
@@ -149,7 +156,16 @@ async function loadImagesFromStorage() {
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
       swiperCard.setAttribute("data-index", i);
-      swiperCard.innerHTML = `<img src="${img}" alt="img${i}">`;
+
+      const imageElem = document.createElement("img");
+      imageElem.src = img;
+      imageElem.alt = `img${i}`;
+      imageElem.setAttribute("draggable", "false");
+      imageElem.style.userSelect = "none";
+      imageElem.addEventListener("contextmenu", (e) => e.preventDefault());
+      imageElem.addEventListener("dragstart", (e) => e.preventDefault());
+
+      swiperCard.appendChild(imageElem);
 
       swiperWrapper.appendChild(swiperCard);
       imageUrl = "../assets/image/Bio Data.jpg";
@@ -233,3 +249,7 @@ function hideLoader() {
   const loader = document.getElementById("loader");
   if (loader) loader.style.display = "none";
 }
+
+document.querySelector(".scroll-top").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
