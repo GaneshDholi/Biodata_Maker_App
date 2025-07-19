@@ -604,6 +604,40 @@ input[disabled] {
   border: 1px solid #d0d0d0;
 }
 
+@media (max-width: 900px) {
+  .modal2-content {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80%; /* Or adjust to fit your need */
+    background: #fff;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease-out;
+    transform: translateY(0); /* Default state */
+  }
+
+  .modal2-content.hidden {
+    transform: translateY(100%);
+  }
+
+  body.modal-open {
+    overflow: hidden; /* Prevent background scroll */
+  }
+
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .thank-you-text {
+    display: none;
+  }
+}
+
 .note {
   display: block;
   width: 100%;
@@ -969,17 +1003,5 @@ input[disabled] {
   #pagignaiton-buttons {
     width: 111%;
     margin-left: -6%;
-  }
-
-  .thank-you-text {
-    display: none;
-  }
-
-  .modal2-content {
-    margin-top: 152px;
-  }
-
-  .download-section {
-    padding: 0;
   }
 }
