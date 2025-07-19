@@ -163,9 +163,16 @@ body {
   animation: spreadCards 0.8s ease-out forwards;
 }
 
+.head-img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
 .head-card1 {
   background-color: #fffbe9;
   animation-delay: 0.5s;
+  background-image: url(../carousel/3a.jpg);
 }
 
 .head-card2 {
@@ -189,6 +196,7 @@ body {
   0% {
     transform: rotate(0deg) scale(0.95);
   }
+
   100% {
     transform: rotate(var(--angle)) scale(1);
   }
@@ -208,6 +216,13 @@ body {
   --angle: 14.15deg;
   transform: translate(230px, 0) rotate(var(--angle));
 }
+
+.head-cards:hover .head-card1:hover,
+.head-cards:hover .head-card2:hover,
+.head-cards:hover .head-card3:hover {
+  animation: spreadCards 0.8s ease-out forwards;
+}
+
 
 .label {
   position: absolute;
@@ -258,6 +273,7 @@ body {
   left: 264px;
   top: 26px;
 }
+
 .right {
   right: -30px;
   transform: rotate(-5deg);
@@ -288,6 +304,7 @@ body {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 .try-now-btn span {
   width: 163px;
   height: 27px;
@@ -348,6 +365,30 @@ body {
   margin: auto;
   padding: 20px;
   margin-top: 5%;
+}
+
+@media (min-width: 1930px) {
+  .swiper-container {
+    margin-left: 22%;
+  }
+}
+
+@media (min-width: 1670px) and (max-width: 1930px) {
+  .swiper-container {
+    margin-left: 20%;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1670px) {
+  .swiper-container {
+    margin-left: 5%;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1200px) {
+  .swiper-container {
+    margin-left: auto;
+  }
 }
 
 .swiper-section {
@@ -446,6 +487,7 @@ body {
   0% {
     left: -50px;
   }
+
   100% {
     left: 250px;
   }
@@ -591,14 +633,17 @@ body {
     margin: 0 auto;
     height: auto !important;
   }
+
   .swiper-container {
     padding: 2px;
     margin-top: 5%;
   }
+
   .swiper-wrapper {
     height: auto !important;
     width: auto !important;
   }
+
   .gridscard {
     width: 100% !important;
     max-width: 160px;
@@ -607,7 +652,7 @@ body {
   }
 }
 
-/* lotifle */ 
+/* lotifle */
 .lotifile-loader {
   position: relative;
   width: 100%;
@@ -820,6 +865,7 @@ body {
   border-top: 1px solid #cecece;
   height: auto;
   min-height: 650px;
+  margin-top: 8rem;
 }
 
 .footer-container {
@@ -960,11 +1006,9 @@ body {
 .divider .background,
 .divider2 .background {
   width: 10%;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0)
-  );
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0));
 }
 
 .vertical-menu {
@@ -1144,6 +1188,7 @@ body {
     left: 12px;
   }
 }
+
 @media (max-width: 1275px) {
   .swiper-section {
     width: auto !important;
@@ -1208,33 +1253,34 @@ body {
   .navigation-container {
     display: none;
   }
+
+  .head-card {
+    width: 120px;
+    height: 170px;
+  }
+
+  .head-card1 {
+    left: 103 !important;
+    top: 40px !important;
+  }
+
+  .head-card2 {
+    left: 200px !important;
+    top: 15px !important;
+  }
+
+  .head-card3 {
+    left: 293px !important;
+    top: 35px !important;
+  }
 }
 
 @media (max-width: 850px) {
-  .head-card {
-    width: 153px !important;
-    height: 234px !important;
-  }
 
   .head-cards {
     height: 270px;
     width: auto;
     min-width: 500px;
-  }
-
-  .head-card1 {
-    left: 58px !important;
-    top: -4px !important;
-  }
-
-  .head-card2 {
-    top: -33px !important;
-    left: 187px !important;
-  }
-
-  .head-card3 {
-    left: 319px !important;
-    top: -2px !important;
   }
 
   .label {
@@ -1253,11 +1299,13 @@ body {
     width: 40px;
     height: 52px;
   }
+
   .leftone {
     position: absolute;
     left: -49px;
     top: 2.9px;
   }
+
   .rightone {
     position: absolute;
     left: 150px !important;
@@ -1265,8 +1313,8 @@ body {
   }
 
   .try-now-btn .circle img {
-    width: 21px;
-    height: 21px;
+    width: 17px;
+    height: 17px;
   }
 
   .try-now-btn .circle {
@@ -1275,22 +1323,30 @@ body {
     width: auto !important;
     height: auto !important;
   }
+
   .try-now-btn span {
     width: 115px;
     height: 34px;
     font-size: 13px !important;
     margin-top: 14px;
   }
+
   .try-now-btn {
     position: absolute;
-    width: 152px;
-    height: 40px;
+    width: 118px;
+    height: 30px;
+    justify-content: space-evenly;
+    font-size: 10px;
+    top: -236px;
+    left: 215px;
   }
+
   .buttonoftry {
     position: relative;
     top: 236px;
     right: 454px;
   }
+
   .three-card-wrapper {
     width: 733px;
   }

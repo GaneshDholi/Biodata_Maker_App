@@ -8,6 +8,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: "Poppins";
   height: 100%;
@@ -86,10 +87,8 @@ nav {
 
 .card-preview {
   position: relative;
-  width: 32.1%;
-  margin-right: 33px;
-  height: 78.4%;
-  margin-left: 44px;
+  height: 100%;
+  aspect-ratio: 2 / 3;
 }
 
 .card-preview img {
@@ -99,6 +98,12 @@ nav {
   position: relative;
   border-radius: 7px;
 }
+
+.highlight-update {
+  transition: background-color 0.3s ease;
+  background-color: #ffff99;
+}
+
 
 #text-overlay {
   position: absolute;
@@ -157,6 +162,55 @@ nav {
   margin-top: 20px;
 }
 
+/* dropdown css */
+.dropdown-container {
+  display: flex;
+  gap: 20px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-button {
+  background-color: #4e9459;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  padding: 10px 0;
+}
+
+.dropdown-content a {
+  padding: 10px 16px;
+  display: block;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* form css */
 .form-area {
   display: flex;
@@ -171,6 +225,7 @@ nav {
   margin-right: 33px;
   overflow: hidden;
 }
+
 .form-header h2 {
   font-family: "poppins";
   font-weight: 400;
@@ -186,7 +241,7 @@ nav {
 .form-row {
   display: flex;
   align-items: center;
-  gap: 17px;
+  justify-content: space-between;
   margin-bottom: 8px;
   font-size: 14px;
 }
@@ -236,7 +291,6 @@ nav {
   border-width: 1px;
   border: 1px solid #d2d2d2;
   font-weight: 400;
-  font-size: 17px;
   color: #999999;
   padding-left: 15px;
   display: flex;
@@ -290,14 +344,33 @@ input[disabled] {
   box-shadow: 0 0 8px rgba(78, 148, 89, 0.6);
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: #4e9459;
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(21px);
   box-shadow: 0 0 8px rgba(78, 148, 89, 0.6);
 }
+
+.switch input:disabled + .slider {
+  background-color: #ccc; /* Gray background */
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.switch input:disabled + .slider:before {
+  box-shadow: none;
+}
+
+.field-hidden {
+  visibility: hidden !important;
+  pointer-events: none;
+  /* optional: collapse layout without flicker */
+  opacity: 0;
+}
+
 
 .btn-add {
   display: flex;
@@ -386,6 +459,7 @@ input[disabled] {
   height: 419px;
   overflow-y: scroll;
 }
+
 /* downloadbtn modal */
 .modal2 {
   position: fixed;
@@ -635,6 +709,7 @@ input[disabled] {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -808,6 +883,7 @@ input[disabled] {
     opacity: 0;
     transform: scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -819,42 +895,43 @@ input[disabled] {
     height: 4.8em;
     margin-top: 1em;
   }
+
   .container {
     width: auto;
     gap: 10em;
   }
-  .card-preview {
-    width: 34.9%;
-    height: 101.6%;
-  }
-  .switch input:checked + .slider {
+
+  .switch input:checked+.slider {
     background-color: #4e9459;
     width: 46px;
   }
+
   .collapsible-content.open {
-    width: fit-content;
+    width: 100%;
   }
+
   .form-row {
-    width: fit-content;
+    width: 100%;
   }
+
   .main-container {
     margin-top: 5.7em;
   }
+
   .pageNumber {
     margin-top: 0;
   }
+
   .slider {
     width: 129%;
   }
+
   .switch {
     width: 37px;
   }
 }
 
 @media (max-width: 1260px) {
-  .card-preview {
-    width: 40%;
-  }
   .container {
     display: flex;
     flex-direction: column;
@@ -862,44 +939,47 @@ input[disabled] {
     justify-content: center;
     height: auto;
   }
+
+  .card-preview {
+    position: relative;
+    height: 400px;
+    aspect-ratio: 2 / 3;
+  }
+
   .form-area {
     margin-right: 0;
   }
 }
 
 @media (max-width: 900px) {
-  .card-preview {
-    width: 100%;
-    height: 500px;
-    margin: 0;
-  }
+
   .form-area {
     width: 100%;
     margin-top: 150px;
   }
-  .overlay-page {
-    height: 365px;
-  }
+
   .text-overlay {
     height: 365px;
   }
-  .card-preview img {
-    height: 500px;
-  }
+
   .form-row {
     flex-wrap: wrap;
   }
+
   #pagignaiton-buttons {
     width: 111%;
     margin-left: -6%;
   }
-  .thank-you-text{
+
+  .thank-you-text {
     display: none;
   }
-  .modal2-content{
+
+  .modal2-content {
     margin-top: 152px;
   }
-  .download-section{
+
+  .download-section {
     padding: 0;
   }
 }

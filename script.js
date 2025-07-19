@@ -9,7 +9,6 @@ const cards = cardGrid.querySelectorAll(".gridscard");
 const prevPage = document.getElementById("prevPage");
 const nextPage = document.getElementById("nextPage");
 const pageIndicator = document.getElementById("pageIndicator");
-
 let currentPage = 0;
 let cardsPerPage = 12;
 
@@ -24,13 +23,13 @@ function showPage(pageIndex) {
   const end = start + cardsPerPage;
 
   const visibleCards = allImages.slice(start, end);
-  visibleCards.forEach((img, i) => {
+  visibleCards.forEach((imgObj, i) => {
     const gridCard = document.createElement("div");
     gridCard.className = "gridscard tilt-card";
-    gridCard.setAttribute("data-index", i);
+    gridCard.setAttribute("data-index", start + i);
 
     const imageElem = document.createElement("img");
-    imageElem.src = img;
+    imageElem.src = imgObj.thumb;
     imageElem.alt = `img${i}`;
     imageElem.setAttribute("draggable", "false");
     imageElem.style.userSelect = "none";
@@ -39,20 +38,13 @@ function showPage(pageIndex) {
 
     gridCard.appendChild(imageElem);
     cardGrid.appendChild(gridCard);
-  });
 
-  cardGrid.querySelectorAll(".tilt-card").forEach(addTiltEffect);
-
-  cardGrid.querySelectorAll(".gridscard").forEach((card) => {
-    card.addEventListener("click", () => {
-      const clickedIndex = parseInt(card.getAttribute("data-index"));
-      const imageUrl = "../assets/image/Bio Data.jpg";
-      sessionStorage.setItem("selectedImage", imageUrl);
+    gridCard.addEventListener("click", () => {
+      sessionStorage.setItem("selectedImages", JSON.stringify(imgObj.fullPages));
+      sessionStorage.setItem("selectedTempId", imgObj.id);
       window.location.href = "./main/index.html";
     });
-
   });
-
 
   pageIndicator.textContent = `${pageIndex + 1}`;
   prevPage.disabled = pageIndex === 0;
@@ -115,7 +107,6 @@ menuItems.forEach((item) => {
   });
 });
 
-let allImages = [];
 const accessKey = "-pbe454CFdVksD-J9zzvau1gk4hMSpCIOJ8BhHThZH0";
 
 const firebaseConfig = {
@@ -131,54 +122,65 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-firebase.auth().signInWithEmailAndPassword("ganeshdholi2000@gmail.com", "Ganeshdholisunstar086421")
-  .then((userCredential) => {
-    console.log("Signed in as developer:", userCredential.user.uid);
-    loadImagesFromStorage();
-  })
-  .catch((error) => {
-    console.error("Auth error:", error.message);
-  });
-
-
 async function loadImagesFromStorage() {
   try {
     showLoader();
-    const storageRef = firebase.storage().ref("carousel");
-    const result = await storageRef.listAll();
 
-    allImages = await Promise.all(
-      result.items.map((item) => item.getDownloadURL())
-    );
+    const storageRef = firebase.storage().ref("carousel");
+    const listResult = await storageRef.listAll();
+    const folderRefs = listResult.prefixes;
 
     swiperWrapper.innerHTML = "";
-    allImages.slice(0, 12).forEach((img, i) => {
+    allImages = [];
+
+    for (let i = 0; i < folderRefs.length; i++) {
+      const folderRef = folderRefs[i];
+      const folderName = folderRef.name;
+
+      const files = await folderRef.listAll();
+      let thumbUrl = null;
+      let fullPages = [];
+
+      for (const itemRef of files.items) {
+        const name = itemRef.name.toLowerCase();
+
+        if (name.endsWith("a.jpg")) {
+          thumbUrl = await itemRef.getDownloadURL(); // 1a.jpg
+        } else if (name.endsWith("b.jpg") || name.endsWith("c.jpg") || name.endsWith("d.jpg")) {
+          const pageUrl = await itemRef.getDownloadURL();
+          fullPages.push({ name, url: pageUrl });
+        }
+      }
+      fullPages.sort((a, b) => a.name.localeCompare(b.name));
+      const fullUrls = fullPages.map(p => p.url);
+
+      if (!thumbUrl || fullUrls.length === 0) continue;
+
+      allImages.push({
+        id: folderName,
+        thumb: thumbUrl,
+        fullPages: fullUrls
+      });
+
+
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
       swiperCard.setAttribute("data-index", i);
-
-      const imageElem = document.createElement("img");
-      imageElem.src = img;
-      imageElem.alt = `img${i}`;
-      imageElem.setAttribute("draggable", "false");
-      imageElem.style.userSelect = "none";
-      imageElem.addEventListener("contextmenu", (e) => e.preventDefault());
-      imageElem.addEventListener("dragstart", (e) => e.preventDefault());
-
-      swiperCard.appendChild(imageElem);
+      swiperCard.innerHTML = `<img src="${thumbUrl}" alt="${folderName}" draggable="false" style="user-select: none;">`;
 
       swiperWrapper.appendChild(swiperCard);
-      imageUrl = "../assets/image/Bio Data.jpg";
+      console.log(`Loaded folder: ${folderName} with thumb: ${thumbUrl} and ${fullUrls.length} pages`);
       swiperCard.addEventListener("click", () => {
-        sessionStorage.setItem("selectedImage", imageUrl);
+        sessionStorage.setItem("selectedImages", JSON.stringify(fullUrls));
+        sessionStorage.setItem("selectedTempId", folderName);
         window.location.href = "./main/index.html";
       });
-    });
+    }
 
-    new Swiper(".mySwiper", {
+    if (window.swiperInstance) window.swiperInstance.destroy(true, true);
+    window.swiperInstance = new Swiper(".mySwiper", {
       slidesPerView: 3.5,
       spaceBetween: 20,
-      allowTouchMove: true,
       breakpoints: {
         320: { slidesPerView: 1.2 },
         480: { slidesPerView: 2.2 },
@@ -188,12 +190,16 @@ async function loadImagesFromStorage() {
 
     swiperWrapper.querySelectorAll(".tilt-card").forEach(addTiltEffect);
     updateGridView();
+
   } catch (err) {
-    console.error("Error loading images from Storage", err);
+    console.error("Error loading images:", err);
   } finally {
     hideLoader();
   }
 }
+
+let swiper = document.querySelectorAll(".swiper-container");
+console.log(swiper)
 
 window.onload = loadImagesFromStorage;
 

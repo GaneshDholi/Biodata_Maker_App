@@ -53,44 +53,89 @@
 
 
       <div class="form-area">
+        <div class="dropdown-container">
+          <div class="dropdown">
+            <button class="dropdown-button">Body</button>
+            <div class="dropdown-content">
+              <a href="#" data-body="body_1" id="body1">body_1</a>
+              <a href="#" data-body="body_2" id="body2">body_2</a>
+              <a href="#" data-body="body_3" id="body3">body_3</a>
+            </div>
+          </div>
+
+          <div class="dropdown" id="headerDropdown">
+            <button class="dropdown-button">Head</button>
+            <div class="dropdown-content">
+              <a href="#" data-header="header_1" id="header1">Header 1</a>
+              <a href="#" data-header="header_2" id="header2">Header 2</a>
+            </div>
+          </div>
+
+
+          <div class="dropdown">
+            <button class="dropdown-button">Font1</button>
+            <div class="dropdown-content">
+              <a href="#" data-font-type="font1" data-font="Arial">Arial</a>
+              <a href="#" data-font-type="font1" data-font="Times New Roman">Times New Roman</a>
+              <a href="#" data-font-type="font1" data-font="Roboto">Roboto</a>
+              <a href="#" data-font-type="font1" data-font="Open Sans">Open Sans</a>
+              <a href="#" data-font-type="font1" data-font="Lato">Lato</a>
+              <a href="#" data-font-type="font1" data-font="Montserrat">Montserrat</a>
+              <a href="#" data-font-type="font1" data-font="Helvetica">Helvetica</a>
+              <a href="#" data-font-type="font1" data-font="Georgia">Georgia</a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="dropdown-button">Font2</button>
+            <div class="dropdown-content">
+              <a href="#" data-font-type="font2" data-font="Calibri">Calibri</a>
+              <a href="#" data-font-type="font2" data-font="Verdana">Verdana</a>
+              <a href="#" data-font-type="font2" data-font="Tahoma">Tahoma</a>
+              <a href="#" data-font-type="font2" data-font="Courier New">Courier New</a>
+              <a href="#" data-font-type="font2" data-font="Arial">Arial</a>
+              <a href="#" data-font-type="font2" data-font="Times New Roman">Times New Roman</a>
+              <a href="#" data-font-type="font2" data-font="Roboto">Roboto</a>
+            </div>
+          </div>
+        </div>
         <div id="form-fields"></div>
       </div>
     </div>
-  </div>
 
 
 
-  <!-- Edit Modal -->
-  <div id="editModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h2 style="text-align: center; font-size: 18px; color: #555;">Edit Details</h2>
-      <div style="display: flex; align-items: flex-start; gap: 30px; margin-bottom: 25px;">
-        <div
-          style="flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 30px;">
-          <input type="text" id="modalLabelInput" class="label-box" placeholder="Name" readonly />
-          <span style="margin-top: 8px; color: #4e9459; font-size: 20px;">⋮</span>
-        </div>
-        <div style="flex: 2;">
-          <div class="rich-editor">
-            <div class="toolbar">
-              <button><b>B</b></button>
-              <button><i>I</i></button>
-              <button><u>U</u></button>
-              <select>
-                <option>English</option>
-                <option>Hindi</option>
-              </select>
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h2 style="text-align: center; font-size: 18px; color: #555;">Edit Details</h2>
+        <div style="display: flex; align-items: flex-start; gap: 30px; margin-bottom: 25px;">
+          <div
+            style="flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 30px;">
+            <input type="text" id="modalLabelInput" class="label-box" placeholder="Name" readonly />
+            <span style="margin-top: 8px; color: #4e9459; font-size: 20px;">⋮</span>
+          </div>
+          <div style="flex: 2;">
+            <div class="rich-editor">
+              <div class="toolbar">
+                <button><b>B</b></button>
+                <button><i>I</i></button>
+                <button><u>U</u></button>
+                <select>
+                  <option>English</option>
+                  <option>Hindi</option>
+                </select>
+              </div>
+              <textarea id="modalValueInput" class="editor-input"></textarea>
             </div>
-            <textarea id="modalValueInput" class="editor-input"></textarea>
           </div>
         </div>
-      </div>
-      <div style="text-align: center;">
-        <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+        <div style="text-align: center;">
+          <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+        </div>
       </div>
     </div>
   </div>
-
 
 
   <!-- downloadBtn-modal -->
@@ -139,15 +184,24 @@
   </div>
 
   <script>
-    document.getElementById("bakcBtnMain").addEventListener("click", function () {
-      window.location.href = "../index.html";
+    document.addEventListener("DOMContentLoaded", function () {
+      const someButton = document.getElementById("backBtnMain");
+      if (someButton) {
+        someButton.addEventListener("click", () => {
+          window.location.href = "../index.html";
+        });
+      }
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="script.js"></script>
+  <script src="scriptMain.js"></script>
 </body>
 
 </html>
