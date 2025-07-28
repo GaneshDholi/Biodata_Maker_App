@@ -1,0 +1,32 @@
+{
+  "all_details": {
+    "personalFields": [
+      "Photo (optional)",
+      "Name",
+      "Date of Birth",
+      "Place of Birth",
+      "Time of Birth",
+      "Rashi",
+      "Nakshatra",
+      "Complexion",
+      "Height",
+      "Gotra",
+      "Bachelors",
+      "Work"
+    ],
+    "familyFields": [
+      "Father's Name",
+      "Father's Occupation",
+      "Mother's Name",
+      "Mother's Occupation",
+      "Siblings"
+    ],
+    "contactFields": [
+      "Contact Person",
+      "Contact Number",
+      "Email ID",
+      "Residential Address"
+    ]
+  }
+}
+

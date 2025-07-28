@@ -1,0 +1,56 @@
+{
+  "body_1": {
+    "section_head_styling": {
+      "fontSize": "32px",
+      "padding": "20px",
+      "alignItem": "left"
+    },
+    "section_area_styling": {
+      "fieldGap": "45px",
+      "fontSize": "30px",
+      "alignItem": "left"
+    }
+  },
+  "body_2": {
+    "section_head_styling": {
+      "fontSize": "32px",
+      "color": "color2",
+      "padding": "25px",
+      "alignItem": "center"
+    },
+    "section_area_styling": {
+      "fieldGap": "40px",
+      "fontSize": "30px",
+      "backgroundColour": "color3",
+      "alignItem": "flex-start"
+    }
+  },
+  "body_3": {
+    "section_head_styling": {
+      "fontSize": "32px",
+      "color": "color2",
+      "padding": "25px",
+      "alignItem": "center"
+    },
+    "section_area_styling": {
+      "fieldGap": "40px",
+      "fontSize": "30px",
+      "backgroundColour": "color3",
+      "alignItem": "center"
+    }
+  },
+  "body_4": {
+    "section_head_styling": {
+      "fontSize": "30px",
+      "color": "color2",
+      "padding": "20px",
+      "alignItem": "flex-start"
+    },
+    "section_area_styling": {
+      "fieldGap": "35px",
+      "fontSize": "28px",
+      "backgroundColour": "color3",
+      "alignItem": "flex-start"
+    }
+  }
+}

@@ -46,13 +46,58 @@ function showPage(pageIndex) {
     });
   });
 
+  enhanceCardsIn("#cardGrid", ".gridscard");
+  addTiltToWeddingCards();
+
   pageIndicator.textContent = `${pageIndex + 1}`;
   prevPage.disabled = pageIndex === 0;
   nextPage.disabled = pageIndex === totalPages - 1;
 }
 
+function enhanceCardsIn(containerSelector, cardClass = ".tilt-card") {
+  document.querySelectorAll(`${containerSelector} ${cardClass}`).forEach((originalCard, i) => {
+    const thumbImg = originalCard.querySelector("img");
+    const thumbUrl = thumbImg?.src || "";
+    const folderName = thumbImg?.alt || `card-${i}`;
+
+    const cardWrapper = document.createElement("div");
+    cardWrapper.className = "card-wrapper";
+    cardWrapper.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    `;
+
+    const weddingCard = document.createElement("div");
+    weddingCard.className = "wedding-card";
+    weddingCard.id = `card_items_${folderName}`;
+    weddingCard.style.cssText = `
+      width: 247px;
+      border-radius: 10px;
+      position: relative;
+      will-change: transform;
+      z-index: 10;
+      background-image: url('${thumbUrl}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    `;
+
+    weddingCard.innerHTML = `
+      <div class="glow"></div>
+      <canvas height="900" width="600"
+        style="width: 100%; height: 100%; opacity: 1; transition: opacity 1s ease-in-out;"></canvas>
+    `;
+
+    cardWrapper.appendChild(weddingCard);
+    originalCard.innerHTML = "";
+    originalCard.appendChild(cardWrapper);
+  });
+}
+
 function updateGridView() {
-  cardsPerPage = window.innerWidth <= 500 ? 2 : 12;
+  cardsPerPage = window.innerWidth <= 1100 ? 6 : 12;
   showPage(0);
 }
 
@@ -95,7 +140,11 @@ const faqs = document.querySelectorAll(".faq");
 faqs.forEach((faq) => {
   faq.addEventListener("click", () => {
     faq.classList.toggle("active");
-    faq.style.height = "fit-content";
+    if (faq.classList.contains("active")) {
+      faq.style.height = "fit-content";
+    } else {
+      faq.style.height = "auto";
+    }
   });
 });
 
@@ -126,71 +175,71 @@ async function loadImagesFromStorage() {
   try {
     showLoader();
 
-    const storageRef = firebase.storage().ref("carousel");
-    const listResult = await storageRef.listAll();
-    const folderRefs = listResult.prefixes;
+    const storage = firebase.storage();
+    const shorterRef = storage.ref("carousel/shorter");
+
+    const listResult = await shorterRef.listAll();
+    const thumbImageRefs = listResult.items.filter(item => /[0-9]+a\.jpg$/i.test(item.name));
 
     swiperWrapper.innerHTML = "";
     allImages = [];
 
-    for (let i = 0; i < folderRefs.length; i++) {
-      const folderRef = folderRefs[i];
-      const folderName = folderRef.name;
+    const thumbUrls = await Promise.all(
+      thumbImageRefs.map(ref => ref.getDownloadURL().catch(err => null))
+    );
 
-      const files = await folderRef.listAll();
-      let thumbUrl = null;
-      let fullPages = [];
+    thumbImageRefs.forEach((aRef, i) => {
+      const fileName = aRef.name;
+      const folderId = fileName.replace("a.jpg", ""); 
+      const thumbUrl = thumbUrls[i];
 
-      for (const itemRef of files.items) {
-        const name = itemRef.name.toLowerCase();
+      if (!thumbUrl) return; 
 
-        if (name.endsWith("a.jpg")) {
-          thumbUrl = await itemRef.getDownloadURL(); // 1a.jpg
-        } else if (name.endsWith("b.jpg") || name.endsWith("c.jpg") || name.endsWith("d.jpg")) {
-          const pageUrl = await itemRef.getDownloadURL();
-          fullPages.push({ name, url: pageUrl });
-        }
-      }
-      fullPages.sort((a, b) => a.name.localeCompare(b.name));
-      const fullUrls = fullPages.map(p => p.url);
-
-      if (!thumbUrl || fullUrls.length === 0) continue;
-
-      allImages.push({
-        id: folderName,
-        thumb: thumbUrl,
-        fullPages: fullUrls
-      });
-
+      allImages.push({ id: folderId, thumb: thumbUrl });
 
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
-      swiperCard.setAttribute("data-index", i);
-      swiperCard.innerHTML = `<img src="${thumbUrl}" alt="${folderName}" draggable="false" style="user-select: none;">`;
-
+      swiperCard.dataset.index = i;
+      swiperCard.innerHTML = `
+        <img src="${thumbUrl}" alt="Template ${folderId}" draggable="false" style="user-select: none;">
+      `;
       swiperWrapper.appendChild(swiperCard);
-      console.log(`Loaded folder: ${folderName} with thumb: ${thumbUrl} and ${fullUrls.length} pages`);
-      swiperCard.addEventListener("click", () => {
-        sessionStorage.setItem("selectedImages", JSON.stringify(fullUrls));
-        sessionStorage.setItem("selectedTempId", folderName);
-        window.location.href = "./main/index.html";
+
+      swiperCard.addEventListener("click", async () => {
+        try {
+          const [frontUrl, backUrl] = await Promise.all([
+            storage.ref(`carousel/larger/Front/${folderId}b.jpg`).getDownloadURL(),
+            storage.ref(`carousel/larger/Back/${folderId}c.jpg`).getDownloadURL()
+          ]);
+
+          sessionStorage.setItem("selectedImages", JSON.stringify([frontUrl, backUrl]));
+          sessionStorage.setItem("selectedTempId", folderId);
+          window.location.href = "./main/index.html";
+        } catch (err) {
+          console.error(`Error loading full images for ID ${folderId}:`, err);
+        }
+      });
+    });
+
+    enhanceSwiperCards();
+    addTiltToWeddingCards();
+
+    if (window.swiperInstance) window.swiperInstance.destroy(true, true);
+
+    const swiperEl = document.querySelector(".swiper-container");
+    if (swiperEl) {
+      window.swiperInstance = new Swiper(".mySwiper", {
+        slidesPerView: 3.5,
+        spaceBetween: 20,
+        breakpoints: {
+          320: { slidesPerView: 1.2 },
+          480: { slidesPerView: 2.2 },
+          768: { slidesPerView: 3.5 },
+        },
       });
     }
 
-    if (window.swiperInstance) window.swiperInstance.destroy(true, true);
-    window.swiperInstance = new Swiper(".mySwiper", {
-      slidesPerView: 3.5,
-      spaceBetween: 20,
-      breakpoints: {
-        320: { slidesPerView: 1.2 },
-        480: { slidesPerView: 2.2 },
-        768: { slidesPerView: 3.5 },
-      },
-    });
-
-    swiperWrapper.querySelectorAll(".tilt-card").forEach(addTiltEffect);
     updateGridView();
-
   } catch (err) {
     console.error("Error loading images:", err);
   } finally {
@@ -198,53 +247,124 @@ async function loadImagesFromStorage() {
   }
 }
 
-let swiper = document.querySelectorAll(".swiper-container");
-console.log(swiper)
 
-window.onload = loadImagesFromStorage;
 
-function addTiltEffect(card) {
-  let bounding = null;
-  let animationFrame;
+function enhanceSwiperCards() {
+  document.querySelectorAll(".swiper-slide.card").forEach((originalCard, i) => {
+    const thumbImg = originalCard.querySelector("img");
+    const thumbUrl = thumbImg?.src || "";
+    const folderName = thumbImg?.alt || `card-${i}`;
 
-  card.addEventListener("mouseenter", () => {
-    bounding = card.getBoundingClientRect();
+    const cardWrapper = document.createElement("div");
+    cardWrapper.className = "card-wrapper";
+    cardWrapper.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    `;
+
+    const weddingCard = document.createElement("div");
+    weddingCard.className = "wedding-card";
+    weddingCard.id = `card_items_${folderName}`;
+    weddingCard.style.cssText = `
+      width: 247px;
+      border-radius: 10px;
+      position: relative;
+      will-change: transform;
+      z-index: 10;
+      background-image: url('${thumbUrl}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    `;
+
+    weddingCard.innerHTML = `
+      <div class="glow"></div>
+      <canvas height="900" width="600"
+        style="width: 100%; height: 100%; opacity: 1; transition: opacity 1s ease-in-out;"></canvas>
+    `;
+
+    cardWrapper.appendChild(weddingCard);
+
+    originalCard.innerHTML = "";
+    originalCard.appendChild(cardWrapper);
   });
+}
 
-  card.addEventListener("mouseleave", () => {
-    bounding = null;
-    cancelAnimationFrame(animationFrame);
-    card.style.setProperty("--x-rotation", `0deg`);
-    card.style.setProperty("--y-rotation", `0deg`);
-    card.style.transformOrigin = `center center`;
-  });
+function addTiltToWeddingCards() {
+  let currentWrapper = null;
+  let animationFrameId = null;
 
-  card.addEventListener("mousemove", (e) => {
-    if (!bounding) return;
+  function rotateToMouse(e) {
+    if (!currentWrapper) return;
 
-    const x = e.clientX - bounding.left;
-    const y = e.clientY - bounding.top;
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
-    const percentX = x / bounding.width;
-    const percentY = y / bounding.height;
+    animationFrameId = requestAnimationFrame(() => {
+      if (!currentWrapper) return;
+      const bounds = currentWrapper.getBoundingClientRect();
 
-    const maxTilt = 12;
-    const rotateX = (0.5 - percentY) * maxTilt * 2;
-    const rotateY = (percentX - 0.5) * maxTilt * 2;
+      const { clientX: mouseX, clientY: mouseY } = e;
 
-    const originX = `${percentX * 100}%`;
-    const originY = `${percentY * 100}%`;
+      const centerX = mouseX - (bounds.left + bounds.width / 2);
+      const centerY = mouseY - (bounds.top + bounds.height / 2);
 
-    cancelAnimationFrame(animationFrame);
-    animationFrame = requestAnimationFrame(() => {
-      card.style.setProperty("--x-rotation", `${rotateX.toFixed(2)}deg`);
-      card.style.setProperty("--y-rotation", `${rotateY.toFixed(2)}deg`);
-      card.style.setProperty("--shine-x", `${x}px`);
-      card.style.setProperty("--shine-y", `${y}px`);
-      card.style.transformOrigin = `${originX} ${originY}`;
+      const rotateX = (centerY / bounds.height) * 30;
+      const rotateY = -(centerX / bounds.width) * 30;
+
+      const rotatingCard = currentWrapper.closest(".swiper-slide.card, .gridscard");
+
+
+      rotatingCard.style.transform = `
+        perspective(600px)
+        scale(1.05)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translate3d(0, 0, 0)
+      `;
+
+      rotatingCard.style.willChange = "transform";
+      rotatingCard.style.zIndex = 10;
+
+      const glow = rotatingCard.querySelector(".glow");
+      if (glow) {
+        glow.style.backgroundImage = `
+          radial-gradient(
+            circle at ${centerX + bounds.width / 2}px ${centerY + bounds.height / 2}px,
+            rgba(255, 255, 255, 0.3),
+            rgba(0, 0, 0, 0.1)
+          )
+        `;
+      }
+    });
+  }
+
+  document.querySelectorAll(".card-wrapper").forEach((wrapper) => {
+    wrapper.addEventListener("mouseenter", () => {
+      currentWrapper = wrapper;
+    });
+
+    wrapper.addEventListener("mousemove", rotateToMouse);
+
+    wrapper.addEventListener("mouseleave", () => {
+      const rotatingCard = wrapper.closest(".swiper-slide.card, .gridscard");
+      if (rotatingCard) {
+        rotatingCard.style.transition = "transform 0.3s ease-out";
+        rotatingCard.style.transform = "perspective(600px) scale(1) rotateX(0deg) rotateY(0deg)";
+        rotatingCard.style.willChange = "auto";
+        rotatingCard.style.zIndex = "auto";
+      }
+      currentWrapper = null;
     });
   });
 }
+
+let swiper = document.querySelectorAll(".swiper-container");
+console.log(swiper)
+
+
+window.onload = loadImagesFromStorage;
 
 function showLoader() {
   const loader = document.getElementById("loader");
@@ -256,6 +376,77 @@ function hideLoader() {
   if (loader) loader.style.display = "none";
 }
 
-document.querySelector(".scroll-top").addEventListener("click", () => {
+const headCards = document.querySelectorAll(".head-card");
+
+function getAngle(card) {
+  return getComputedStyle(card).getPropertyValue("--angle") || "0deg";
+}
+
+function hasArrow(card) {
+  return card.querySelector(".arrow-icon") !== null;
+}
+
+headCards.forEach((card) => {
+  card.addEventListener("mouseenter", () => {
+    headCards.forEach((otherCard) => {
+      otherCard.style.transition = "transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)";
+      otherCard.style.transform = "rotate(0deg) scale(0.95)";
+      otherCard.style.animation = "none";
+      otherCard.offsetHeight; 
+    });
+
+  });
+
+  card.addEventListener("mouseleave", () => {
+    headCards.forEach((otherCard) => {
+      otherCard.style.transition = "transform 0.6s ease-in-out";
+
+      const angle = hasArrow(otherCard) ? "0deg" : getAngle(otherCard);
+      otherCard.style.transform = `rotate(${angle}) scale(0.95)`;
+    });
+  });
+});
+
+
+
+
+const readMoreButton = document.querySelector('.read-more');
+
+if (readMoreButton) {
+  readMoreButton.addEventListener('click', function (e) {
+    e.preventDefault();
+    const contentWrapper = document.querySelector('.content-wrapper-new');
+    contentWrapper.classList.toggle('expanded');
+    this.textContent = contentWrapper.classList.contains('expanded') ? 'Read less' : 'Read more';
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const faqs = document.querySelectorAll(".faq");
+  const showFaqBtn = document.getElementById("showMore");
+  let isExpanded = false;
+  const initialVisibleCount = 5;
+
+  faqs.forEach((faq, index) => {
+    if (index >= initialVisibleCount) {
+      faq.style.display = "none";
+    }
+  });
+
+  showFaqBtn.addEventListener("click", function () {
+    isExpanded = !isExpanded;
+
+    faqs.forEach((faq, index) => {
+      if (index >= initialVisibleCount) {
+        faq.style.display = isExpanded ? "block" : "none";
+      }
+    });
+
+    showFaqBtn.classList.toggle("expanded", isExpanded);
+  });
+});
+
+
+document.querySelector(".scroll-up .container").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });

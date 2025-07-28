@@ -1,0 +1,130 @@
+{
+  "header_1": {
+    "Photo": [
+      "20px",
+      "57px",
+      "230px",
+      "330px",
+      "40px"
+    ],
+    "Name": [
+      "100px",
+      "390px",
+      "50px"
+    ],
+    "Date of Birth": [
+      "180px",
+      "390px",
+      "30px",
+      "20px"
+    ],
+    "Place of Birth": [
+      "240px",
+      "390px",
+      "30px",
+      "15px"
+    ],
+    "header_container": {
+      "top": "40px",
+      "left": "0",
+      "width": "900px",
+      "height": "400px"
+    }
+  },
+  "header_2": {
+    "Photo": [
+      "35px",
+      "490px",
+      "330px",
+      "330px",
+      "190px"
+    ],
+    "Name": [
+      "115px",
+      "10px",
+      "50px"
+    ],
+    "Date of Birth": [
+      "190px",
+      "10px",
+      "30px",
+      "10px"
+    ],
+    "Place of Birth": [
+      "240px",
+      "10px",
+      "30px",
+      "10px"
+    ],
+    "header_container": {
+      "top": "40px",
+      "left": "0",
+      "width": "900px",
+      "height": "400px"
+    }
+  },
+  "header_3": {
+    "Photo": [
+      "40px",
+      "50px",
+      "250px",
+      "350px",
+      "50px"
+    ],
+    "Name": [
+      "100px",
+      "400px",
+      "60px"
+    ],
+    "Date of Birth": [
+      "190px",
+      "400px",
+      "30px",
+      "20px"
+    ],
+    "Place of Birth": [
+      "240px",
+      "400px",
+      "30px",
+      "15px"
+    ],
+    "header_container": {
+      "top": "50px",
+      "left": "0",
+      "width": "950px",
+      "height": "420px"
+    }
+  },
+  "header_4": {
+    "Photo": [
+      "30px",
+      "100px",
+      "200px",
+      "250px",
+      "100px"
+    ],
+    "Name": [
+      "110px",
+      "350px",
+      "50px"
+    ],
+    "Date of Birth": [
+      "180px",
+      "350px",
+      "30px",
+      "20px"
+    ],
+    "Place of Birth": [
+      "230px",
+      "350px",
+      "30px",
+      "15px"
+    ],
+    "header_container": {
+      "top": "60px",
+      "left": "0",
+      "width": "980px",
+      "height": "440px"
+    }
+  }
+}
