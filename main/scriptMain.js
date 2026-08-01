@@ -40,36 +40,31 @@ let designcolor = [];
 let pageIndex = 0;
 
 const accessKey = "-pbe454CFdVksD-J9zzvau1gk4hMSpCIOJ8BhHThZH0";
-const firebaseConfig = {
-    apiKey: "AIzaSyDnSKxr4jT0O-VeKPTD5GqedsnL90zfrY0",
-    authDomain: "milan-4590e.firebaseapp.com",
-    databaseURL: "https://milan-4590e.firebaseio.com",
-    projectId: "milan-4590e",
-    storageBucket: "milan-4590e.appspot.com",
-    messagingSenderId: "830076097684",
-    appId: "1:830076097684:web:33dc0f6df44dd52cce1081"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyDnSKxr4jT0O-VeKPTD5GqedsnL90zfrY0",
+//     authDomain: "milan-4590e.firebaseapp.com",
+//     databaseURL: "https://milan-4590e.firebaseio.com",
+//     projectId: "milan-4590e",
+//     storageBucket: "milan-4590e.appspot.com",
+//     messagingSenderId: "830076097684",
+//     appId: "1:830076097684:web:33dc0f6df44dd52cce1081"
+// };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// firebase.initializeApp(firebaseConfig);
+// const db = firebase.firestore();
 
 // template load
 async function loadTemplates() {
     try {
-
-        const designDocRef = db.collection("biodata").doc("design");
-        const designSnap = await designDocRef.get();
-
-        if (!designSnap.exists) {
-            return console.error("No design data found in Firestore.");
-        }
-        designJson = designSnap.data();
-        const [headerResponse, bodyResponse, userDetailsResponse] = await Promise.all([
+        // Fetch ALL configurations locally instead of from Firestore
+        const [designResponse, headerResponse, bodyResponse, userDetailsResponse] = await Promise.all([
+            fetch("./design.json"),
             fetch("./header.json"),
             fetch("./body.json"),
             fetch("./user_details.json")
         ]);
 
+        designJson = await designResponse.json();
         headJson = await headerResponse.json();
         bodyJson = await bodyResponse.json();
         const userDetailsJsonData = await userDetailsResponse.json();
@@ -103,7 +98,7 @@ async function loadTemplates() {
 
         const head = headJson[`header_${templateNumber}`] || {};
         const body = bodyJson[`body_${templateNumber}`] || {};
-       
+
         const containerArray = matchedDesign?.container_design || matchedDesign?.Container_design || [];
         const overlay = document.getElementById("overlay-page");
 
@@ -204,7 +199,6 @@ async function loadTemplates() {
         template = templates[0];
         allFields = template.fields;
         currentPageIndex = 0;
-
 
         setupNavigation();
         renderFormFields(headerFields, matchedDesignKey);

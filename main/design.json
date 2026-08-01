@@ -1,0 +1,475 @@
+{
+  "Design_1": {
+    "image_link": [
+      "./carousel/1a.jpg",
+      "./carousel/1b.jpg",
+      "./carousel/1c.jpg"
+    ],
+    "Container_design": [
+      "90px",
+      "60px",
+      "850px",
+      "1350px"
+    ],
+    "color": [
+      "#EFBF04",
+      "#000000",
+      "#a63903"
+    ]
+  },
+  "Design_2": {
+    "image_link": [
+      "./carousel/2a.jpg",
+      "./carousel/2b.jpg",
+      "./carousel/2c.jpg"
+    ],
+    "header": {
+      "Photo": [
+        "20px",
+        "225px",
+        "400px",
+        "400px",
+        "210px"
+      ],
+      "Name": [
+        "470px",
+        "260px",
+        "55px"
+      ],
+      "Date of Birth": [
+        "570px",
+        "230px",
+        "35px",
+        "10px"
+      ],
+      "Place of Birth": [
+        "640px",
+        "230px",
+        "35px",
+        "10px"
+      ],
+      "front_page_container": {
+        "top": "0",
+        "left": "0",
+        "width": "860px",
+        "height": "850px"
+      }
+    },
+    "container_design": [
+      "500px",
+      "70px",
+      "860px",
+      "850px"
+    ],
+    "color": [
+      "#d19a66",
+      "#e5c07b",
+      "#0b44b0"
+    ]
+  },
+  "Design_3": {
+    "image_link": [
+      "./carousel/3a.jpg",
+      "./carousel/3b.jpg",
+      "./carousel/3c.jpg"
+    ],
+    "header": {
+      "Photo": [
+        "10px",
+        "35px",
+        "310px",
+        "310px",
+        "30px"
+      ],
+      "Name": [
+        "100px",
+        "440px",
+        "55px"
+      ],
+      "Date of Birth": [
+        "190px",
+        "440px",
+        "35px",
+        "10px"
+      ],
+      "Place of Birth": [
+        "250px",
+        "440px",
+        "35px",
+        "10px"
+      ],
+      "front_page_container": {
+        "top": "0px",
+        "left": "10px",
+        "width": "940px",
+        "height": "350px"
+      }
+    },
+    "container_design": [
+      "50px",
+      "20px",
+      "950px",
+      "1375px"
+    ],
+    "color": [
+      "#000000",
+      "#000000",
+      "#ebd2d9"
+    ]
+  },
+  "Design_4": {
+    "image_link": [
+      "./carousel/4a.jpg",
+      "./carousel/4b.jpg",
+      "./carousel/4c.jpg"
+    ],
+    "header": {
+      "Photo": [
+        "20px",
+        "200px",
+        "400px",
+        "400px",
+        "200px"
+      ],
+      "Name": [
+        "500px",
+        "230px",
+        "55px"
+      ],
+      "Date of Birth": [
+        "600px",
+        "200px",
+        "35px",
+        "20px"
+      ],
+      "Place of Birth": [
+        "670px",
+        "200px",
+        "35px",
+        "10px"
+      ],
+      "front_page_container": {
+        "top": "0",
+        "left": "0",
+        "width": "850px",
+        "height": "800px"
+      }
+    },
+    "container_design": [
+      "425px",
+      "105px",
+      "800px",
+      "860px"
+    ],
+    "color": [
+      "#A8483B",
+      "#B96C62",
+      "#e0ccb8"
+    ]
+  },
+  "Design_5": {
+    "image_link": [
+      "./carousel/5a.jpg",
+      "./carousel/5b.jpg",
+      "./carousel/5c.jpg"
+    ],
+    "container_design": [
+      "400px",
+      "100px",
+      "800px",
+      "900px"
+    ],
+    "color": [
+      "#000000",
+      "#000000"
+    ]
+  },
+  "bd1": {
+    "image_link": [
+      "./carousel/s_keyword/bd1s.jpg",
+      "./carousel/m_keyword/bd1m.jpg"
+    ],
+    "Container_design": [
+      "275px", "133px", "735px", "1110px"
+    ],
+    "color": [
+      "#A89048", "#A89048"
+    ]
+  },
+  "bd2": {
+    "image_link": [
+      "./carousel/s_keyword/bd2s.jpg",
+      "./carousel/m_keyword/bd2m.jpg"
+    ],
+    "Container_design": [
+      "135px", "103px", "795px", "1220px"
+    ],
+    "color": [
+      "#E8DB94", "#E8DB94"
+    ]
+  },
+  "bd3": {
+    "image_link": [
+      "./carousel/s_keyword/bd3s.jpg",
+      "./carousel/m_keyword/bd3m.jpg"
+    ],
+    "Container_design": [
+      "170px", "140px", "720px", "1145px"
+    ],
+    "color": [
+      "#9F7904", "#786018"
+    ]
+  },
+  "bd4": {
+    "image_link": [
+      "./carousel/s_keyword/bd4s.jpg",
+      "./carousel/m_keyword/bd4m.jpg"
+    ],
+    "Container_design": [
+      "340px", "153px", "695px", "1045px"
+    ],
+    "color": [
+      "#B73229", "#B73229"
+    ]
+  },
+  "bd5": {
+    "image_link": [
+      "./carousel/s_keyword/bd5s.jpg",
+      "./carousel/m_keyword/bd5m.jpg"
+    ],
+    "Container_design": [
+      "310px", "170px", "680px", "935px"
+    ],
+    "color": [
+      "#607898", "#707070"
+    ]
+  },
+  "bd6": {
+    "image_link": [
+      "./carousel/s_keyword/bd6s.jpg",
+      "./carousel/m_keyword/bd6m.jpg"
+    ],
+    "Container_design": [
+      "320px", "180px", "640px", "965px"
+    ],
+    "color": [
+      "#806104", "#386038"
+    ]
+  },
+  "bd7": {
+    "image_link": [
+      "./carousel/s_keyword/bd7s.jpg",
+      "./carousel/m_keyword/bd7m.jpg"
+    ],
+    "Container_design": [
+      "225px", "180px", "640px", "1070px"
+    ],
+    "color": [
+      "#B57533", "#B57533"
+    ]
+  },
+  "bd8": {
+    "image_link": [
+      "./carousel/s_keyword/bd8s.jpg",
+      "./carousel/m_keyword/bd8m.jpg"
+    ],
+    "Container_design": [
+      "510px", "285px", "430px", "785px"
+    ],
+    "color": [
+      "#D89828", "#D89828"
+    ]
+  },
+  "bd9": {
+    "image_link": [
+      "./carousel/s_keyword/bd9s.jpg",
+      "./carousel/m_keyword/bd9m.jpg"
+    ],
+    "Container_design": [
+      "245px", "205px", "590px", "895px"
+    ],
+    "color": [
+      "#C06800", "#984808"
+    ]
+  },
+  "bd10": {
+    "image_link": [
+      "./carousel/s_keyword/bd10s.jpg",
+      "./carousel/m_keyword/bd10m.jpg"
+    ],
+    "Container_design": [
+      "250px", "155px", "690px", "1020px"
+    ],
+    "color": [
+      "#F8A338", "#F8A338"
+    ]
+  },
+  "bd11": {
+    "image_link": [
+      "./carousel/s_keyword/bd11s.jpg",
+      "./carousel/m_keyword/bd11m.jpg"
+    ],
+    "Container_design": [
+      "290px", "163px", "675px", "980px"
+    ],
+    "color": [
+      "#304060", "#882818"
+    ]
+  },
+  "bd12": {
+    "image_link": [
+      "./carousel/s_keyword/bd12s.jpg",
+      "./carousel/m_keyword/bd12m.jpg"
+    ],
+    "Container_design": [
+      "250px", "195px", "630px", "1020px"
+    ],
+    "color": [
+      "#F2F2F2", "#F2F2F2"
+    ]
+  },
+  "bd13": {
+    "image_link": [
+      "./carousel/s_keyword/bd13s.jpg",
+      "./carousel/m_keyword/bd13m.jpg"
+    ],
+    "Container_design": [
+      "210px", "148px", "705px", "1080px"
+    ],
+    "color": [
+      "#103038", "#103038"
+    ]
+  },
+  "bd14": {
+    "image_link": [
+      "./carousel/s_keyword/bd14s.jpg",
+      "./carousel/m_keyword/bd14m.jpg"
+    ],
+    "Container_design": [
+      "245px", "105px", "790px", "1055px"
+    ],
+    "color": [
+      "#F4BC45", "#F4BC45"
+    ]
+  },
+  "bd15": {
+    "image_link": [
+      "./carousel/s_keyword/bd15s.jpg",
+      "./carousel/m_keyword/bd15m.jpg"
+    ],
+    "Container_design": [
+      "250px", "148px", "705px", "1015px"
+    ],
+    "color": [
+      "#7F4D0D", "#7F4D0D"
+    ]
+  },
+  "bd16": {
+    "image_link": [
+      "./carousel/s_keyword/bd16s.jpg",
+      "./carousel/m_keyword/bd16m.jpg"
+    ],
+    "Container_design": [
+      "315px", "185px", "630px", "915px"
+    ],
+    "color": [
+      "#D54A4E", "#B66C44"
+    ]
+  },
+  "bd17": {
+    "image_link": [
+      "./carousel/s_keyword/bd17s.jpg",
+      "./carousel/m_keyword/bd17m.jpg"
+    ],
+    "Container_design": [
+      "265px", "143px", "715px", "945px"
+    ],
+    "color": [
+      "#BF7200", "#BF7200"
+    ]
+  },
+  "bd18": {
+    "image_link": [
+      "./carousel/s_keyword/bd18s.jpg",
+      "./carousel/m_keyword/bd18m.jpg"
+    ],
+    "Container_design": [
+      "335px", "150px", "730px", "940px"
+    ],
+    "color": [
+      "#0D3B3D", "#440D19"
+    ]
+  },
+  "bd19": {
+    "image_link": [
+      "./carousel/s_keyword/bd19s.jpg",
+      "./carousel/m_keyword/bd19m.jpg"
+    ],
+    "Container_design": [
+      "360px", "185px", "630px", "970px"
+    ],
+    "color": [
+      "#4D2C89", "#402472"
+    ]
+  },
+  "bd20": {
+    "image_link": [
+      "./carousel/s_keyword/bd20s.jpg",
+      "./carousel/m_keyword/bd20m.jpg"
+    ],
+    "Container_design": [
+      "255px", "110px", "780px", "1225px"
+    ],
+    "color": [
+      "#F2F2F2", "#F2F2F2"
+    ]
+  },
+  "bd21": {
+    "image_link": [
+      "./carousel/s_keyword/bd21s.jpg",
+      "./carousel/m_keyword/bd21m.jpg"
+    ],
+    "Container_design": [
+      "465px", "160px", "680px", "955px"
+    ],
+    "color": [
+      "#9F7904", "#6088A0"
+    ]
+  },
+  "bd22": {
+    "image_link": [
+      "./carousel/s_keyword/bd22s.jpg",
+      "./carousel/m_keyword/bd22m.jpg"
+    ],
+    "Container_design": [
+      "355px", "223px", "555px", "990px"
+    ],
+    "color": [
+      "#E04860", "#304060"
+    ]
+  },
+  "bd23": {
+    "image_link": [
+      "./carousel/s_keyword/bd23s.jpg",
+      "./carousel/m_keyword/bd23m.jpg"
+    ],
+    "Container_design": [
+      "265px", "150px", "700px", "1000px"
+    ],
+    "color": [
+      "#881830", "#881830"
+    ]
+  },
+  "bd24": {
+    "image_link": [
+      "./carousel/s_keyword/bd24s.jpg",
+      "./carousel/m_keyword/bd24m.jpg"
+    ],
+    "Container_design": [
+      "370px", "130px", "740px", "1110px"
+    ],
+    "color": [
+      "#682C0F", "#682C0F"
+    ]
+  }
+}

@@ -12,6 +12,8 @@ const pageIndicator = document.getElementById("pageIndicator");
 let currentPage = 0;
 let cardsPerPage = 12;
 
+const IMAGEKIT_BASE_URL = "https://ik.imagekit.io/gime0ilbo/carousel";
+
 function showPage(pageIndex) {
   const totalPages = Math.ceil(allImages.length / cardsPerPage);
   pageIndex = Math.max(0, Math.min(pageIndex, totalPages - 1));
@@ -171,56 +173,72 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+
 async function loadImagesFromStorage() {
   try {
     showLoader();
 
-    const storage = firebase.storage();
-    const shorterRef = storage.ref("carousel/shorter");
-
-    const listResult = await shorterRef.listAll();
-    const thumbImageRefs = listResult.items.filter(item => /[0-9]+a\.jpg$/i.test(item.name));
-
     swiperWrapper.innerHTML = "";
     allImages = [];
+    let indexCounter = 0;
 
-    const thumbUrls = await Promise.all(
-      thumbImageRefs.map(ref => ref.getDownloadURL().catch(err => null))
-    );
+    // ==========================================
+    // SET 1: Load Templates 1 through 5
+    // ==========================================
+    for (let i = 1; i <= 5; i++) {
+      const folderId = String(i);
+      const thumbUrl = `${IMAGEKIT_BASE_URL}/shorter/${folderId}a.jpg`;
 
-    thumbImageRefs.forEach((aRef, i) => {
-      const fileName = aRef.name;
-      const folderId = fileName.replace("a.jpg", ""); 
-      const thumbUrl = thumbUrls[i];
+      allImages.push({ id: `Design_${folderId}`, thumb: thumbUrl });
 
-      if (!thumbUrl) return; 
+      const swiperCard = document.createElement("div");
+      swiperCard.className = "swiper-slide card tilt-card";
+      swiperCard.dataset.index = indexCounter++;
+      swiperCard.innerHTML = `
+        <img src="${thumbUrl}" alt="Template Design_${folderId}" draggable="false" style="user-select: none;">
+      `;
+      swiperWrapper.appendChild(swiperCard);
+
+      swiperCard.addEventListener("click", () => {
+        const frontUrl = `${IMAGEKIT_BASE_URL}/larger/Front/${folderId}b.jpg`;
+        const backUrl = `${IMAGEKIT_BASE_URL}/larger/Back/${folderId}c.jpg`;
+
+        sessionStorage.setItem("selectedImages", JSON.stringify([frontUrl, backUrl]));
+        sessionStorage.setItem("selectedTempId", `Design_${folderId}`);
+        window.location.href = "./main/index.html";
+      });
+    }
+
+    // ==========================================
+    // SET 2: Load 'bd' Templates 1 through 24
+    // ==========================================
+    for (let i = 1; i <= 24; i++) {
+      const folderId = `bd${i}`; // Creates bd1, bd2, etc.
+      const thumbUrl = `${IMAGEKIT_BASE_URL}/s_keyword/${folderId}s.jpg`;
 
       allImages.push({ id: folderId, thumb: thumbUrl });
 
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
-      swiperCard.dataset.index = i;
+      swiperCard.dataset.index = indexCounter++;
       swiperCard.innerHTML = `
         <img src="${thumbUrl}" alt="Template ${folderId}" draggable="false" style="user-select: none;">
       `;
       swiperWrapper.appendChild(swiperCard);
 
-      swiperCard.addEventListener("click", async () => {
-        try {
-          const [frontUrl, backUrl] = await Promise.all([
-            storage.ref(`carousel/larger/Front/${folderId}b.jpg`).getDownloadURL(),
-            storage.ref(`carousel/larger/Back/${folderId}c.jpg`).getDownloadURL()
-          ]);
+      swiperCard.addEventListener("click", () => {
+        const mainUrl = `${IMAGEKIT_BASE_URL}/m_keyword/${folderId}m.jpg`;
 
-          sessionStorage.setItem("selectedImages", JSON.stringify([frontUrl, backUrl]));
-          sessionStorage.setItem("selectedTempId", folderId);
-          window.location.href = "./main/index.html";
-        } catch (err) {
-          console.error(`Error loading full images for ID ${folderId}:`, err);
-        }
+        // The 'bd' templates only have one main image, not a front/back.
+        sessionStorage.setItem("selectedImages", JSON.stringify([mainUrl]));
+        sessionStorage.setItem("selectedTempId", folderId);
+        window.location.href = "./main/index.html";
       });
-    });
+    }
 
+    // ==========================================
+    // Initialize Swiper & Layout
+    // ==========================================
     enhanceSwiperCards();
     addTiltToWeddingCards();
 
@@ -246,8 +264,6 @@ async function loadImagesFromStorage() {
     hideLoader();
   }
 }
-
-
 
 function enhanceSwiperCards() {
   document.querySelectorAll(".swiper-slide.card").forEach((originalCard, i) => {
@@ -392,7 +408,7 @@ headCards.forEach((card) => {
       otherCard.style.transition = "transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)";
       otherCard.style.transform = "rotate(0deg) scale(0.95)";
       otherCard.style.animation = "none";
-      otherCard.offsetHeight; 
+      otherCard.offsetHeight;
     });
 
   });
