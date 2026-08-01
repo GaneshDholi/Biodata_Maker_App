@@ -72,7 +72,9 @@ async function loadTemplates() {
         const allDetails = userDetailsJsonData?.all_details;
         if (!allDetails) return console.error("Missing user details data.");
 
-        const selectedImages = JSON.parse(sessionStorage.getItem("selectedImages") || "[]");
+        const storedImages = sessionStorage.getItem("selectedImages");
+        const selectedImages = (storedImages && storedImages !== "undefined") ? JSON.parse(storedImages) : [];
+
         const firstImage = selectedImages[0];
         if (!firstImage) return console.error("No image selected.");
 
@@ -1090,6 +1092,9 @@ function saveActiveHeaderForTemplate(template, headerObj) {
 }
 
 function renderFormFields(headerFields = []) {
+
+    if (!template || !template.fields) return;
+    
     const formFields = document.getElementById("form-fields");
     formFields.innerHTML = "";
     let currentSectionIndex = 0;

@@ -189,7 +189,14 @@ async function loadImagesFromStorage() {
       const folderId = String(i);
       const thumbUrl = `${IMAGEKIT_BASE_URL}/shorter/${folderId}a.jpg`;
 
-      allImages.push({ id: `Design_${folderId}`, thumb: thumbUrl });
+      const frontUrl = `${IMAGEKIT_BASE_URL}/larger/Front/${folderId}b.jpg`;
+      const backUrl = `${IMAGEKIT_BASE_URL}/larger/Back/${folderId}c.jpg`;
+
+      allImages.push({
+        id: `Design_${folderId}`,
+        thumb: thumbUrl,
+        fullPages: [frontUrl, backUrl]
+      });
 
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
@@ -216,7 +223,14 @@ async function loadImagesFromStorage() {
       const folderId = `bd${i}`; // Creates bd1, bd2, etc.
       const thumbUrl = `${IMAGEKIT_BASE_URL}/s_keyword/${folderId}s.jpg`;
 
-      allImages.push({ id: folderId, thumb: thumbUrl });
+      const mainUrl = `${IMAGEKIT_BASE_URL}/m_keyword/${folderId}m.jpg`;
+
+      // UPDATE: Include fullPages in the push
+      allImages.push({
+        id: folderId,
+        thumb: thumbUrl,
+        fullPages: [mainUrl]
+      });
 
       const swiperCard = document.createElement("div");
       swiperCard.className = "swiper-slide card tilt-card";
