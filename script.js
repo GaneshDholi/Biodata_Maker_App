@@ -158,20 +158,6 @@ menuItems.forEach((item) => {
   });
 });
 
-const accessKey = "-pbe454CFdVksD-J9zzvau1gk4hMSpCIOJ8BhHThZH0";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDnSKxr4jT0O-VeKPTD5GqedsnL90zfrY0",
-  authDomain: "milan-4590e.firebaseapp.com",
-  databaseURL: "https://milan-4590e.firebaseio.com",
-  projectId: "milan-4590e",
-  storageBucket: "milan-4590e.appspot.com",
-  messagingSenderId: "830076097684",
-  appId: "1:830076097684:web:33dc0f6df44dd52cce1081"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 
 
 async function loadImagesFromStorage() {

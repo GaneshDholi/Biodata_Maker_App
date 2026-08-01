@@ -17,6 +17,9 @@ const checkSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xm
     <path d="M12 18.5L16 22.5L24 14.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`;
 
+const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5000"
+    : "https://your-live-backend-url.onrender.com"; // Replace this later when you host your backend!
 
 let ration = cardPreview.clientHeight / 1500;
 let currentTemplate = 0;
@@ -38,20 +41,6 @@ let designJson = {};
 let headerClickedThisSession = false;
 let designcolor = [];
 let pageIndex = 0;
-
-const accessKey = "-pbe454CFdVksD-J9zzvau1gk4hMSpCIOJ8BhHThZH0";
-// const firebaseConfig = {
-//     apiKey: "AIzaSyDnSKxr4jT0O-VeKPTD5GqedsnL90zfrY0",
-//     authDomain: "milan-4590e.firebaseapp.com",
-//     databaseURL: "https://milan-4590e.firebaseio.com",
-//     projectId: "milan-4590e",
-//     storageBucket: "milan-4590e.appspot.com",
-//     messagingSenderId: "830076097684",
-//     appId: "1:830076097684:web:33dc0f6df44dd52cce1081"
-// };
-
-// firebase.initializeApp(firebaseConfig);
-// const db = firebase.firestore();
 
 // template load
 async function loadTemplates() {
@@ -1481,7 +1470,33 @@ function renderFormFields(headerFields = []) {
 
                 collapseAllSectionsExcept(null);
                 window.scrollTo({ top: 0, behavior: "smooth" });
-                setTimeout(() => {
+
+                setTimeout(async () => {
+                    try {
+                        // 1. Send the data to your secure Node.js backend
+                        const response = await fetch(`${BACKEND_URL}/api/biodata/save`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                templateId: matchedDesignKey,
+                                // Only send fields that have a value to save database space
+                                formData: template.fields.filter(f => f.value && f.value.trim() !== '')
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            console.log("Data saved securely! ID:", data.biodataId);
+                        } else {
+                            console.warn("Could not save to database, but continuing to download.");
+                        }
+
+                    } catch (error) {
+                        console.error("Backend connection failed:", error);
+                    }
+
+                    // 2. Continue with showing the download modal
                     alert("Form submitted successfully!");
                     initDownloadModalWithPreviewAndPDF();
                     document.getElementById("downloadBtn")?.click();
@@ -1859,3 +1874,80 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 
+// ==========================================
+// SECURE SECURE RAZORPAY INTEGRATION 
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    const purchaseBtn = document.getElementById("purchaseBtn");
+
+    if (purchaseBtn) {
+        purchaseBtn.addEventListener("click", async function (e) {
+            e.preventDefault();
+
+            try {
+                // 1. Fetch Order ID from your backend
+                const response = await fetch("${BACKEND_URL}/api/payment/create-order", {
+                    method: "POST"
+                });
+                const data = await response.json();
+
+                if (!data.success) return alert("Failed to initiate payment");
+
+                // 2. Setup Razorpay Options using the backend Order ID
+                var options = {
+                    "key": "rzp_test_YOUR_TEST_KEY_HERE", // PUBLIC KEY IS SAFE HERE
+                    "amount": data.order.amount,
+                    "currency": "INR",
+                    "name": "Marriage Biodata",
+                    "description": "Remove Watermark & Premium Download",
+                    "order_id": data.order.id, // THE SECURE ID FROM BACKEND
+                    "theme": {
+                        "color": "#4E9459"
+                    },
+                    "handler": async function (response) {
+                        // 3. Verify Payment on the Backend
+                        const verifyRes = await fetch("${BACKEND_URL}/api/payment/verify", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature
+                            })
+                        });
+
+                        const verifyData = await verifyRes.json();
+
+                        if (verifyData.success) {
+                            alert("Payment Verified! Watermark removed.");
+
+                            // Hide watermarks
+                            const watermarks = document.querySelectorAll(".image-overlay");
+                            watermarks.forEach(wm => wm.style.display = "none");
+
+                            // Hide the "OR Purchase Now" box
+                            const actionBox = document.querySelector(".action-box");
+                            if (actionBox) actionBox.style.display = "none";
+                        } else {
+                            alert("Payment verification failed.");
+                        }
+                    },
+                    "prefill": {
+                        "name": document.getElementById("personalFields-name-1")?.value || ""
+                    }
+                };
+
+                // 4. Open Checkout
+                var rzp1 = new window.Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    alert("Payment Failed! Reason: " + response.error.description);
+                });
+                rzp1.open();
+
+            } catch (err) {
+                console.error("Payment error:", err);
+                alert("Something went wrong loading the payment gateway.");
+            }
+        });
+    }
+});
