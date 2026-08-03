@@ -1789,6 +1789,10 @@ function initDownloadModalWithPreviewAndPDF() {
                 margin: "0"
             });
 
+            // This force-deletes any element with these watermark classes from the PDF canvas
+            const clonedWatermarks = clone.querySelectorAll(".image-overlay, .watermark, .sample-text");
+            clonedWatermarks.forEach(el => el.remove());
+
             Array.from(clone.children).forEach(child => {
                 child.style.marginTop = "0";
                 child.style.paddingTop = "0";
@@ -1929,14 +1933,32 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (verifyData.success) {
                             alert("Payment Verified! Watermark removed. Your download will start automatically.");
 
-                            // 1. Hide watermarks
+                            // 1. Hide HTML watermarks (inside the modal)
                             const watermarks = document.querySelectorAll(".image-overlay");
                             watermarks.forEach(wm => wm.style.display = "none");
 
-                            // 2. Hide the "OR Purchase Now" box
+                            // 2. ✨ THE ULTIMATE CSS NUKE ✨
+                            // Because your watermark is hidden inside style.css, we inject code to destroy it globally!
+                            const nukeStyle = document.createElement("style");
+                            nukeStyle.innerHTML = `
+                                .overlay-page::before, 
+                                .overlay-page::after,
+                                .card-preview::before,
+                                .card-preview::after,
+                                [class*="watermark"] {
+                                    display: none !important;
+                                    content: none !important;
+                                    opacity: 0 !important;
+                                    visibility: hidden !important;
+                                }
+                            `;
+                            document.head.appendChild(nukeStyle);
+
+                            // 3. Hide the "OR Purchase Now" box
                             const actionBox = document.querySelector(".action-box");
                             if (actionBox) actionBox.style.display = "none";
 
+                            // 4. Trigger PDF Download
                             setTimeout(() => {
                                 const pdfDownloadBtn = document.getElementById("DownloadPdf");
                                 if (pdfDownloadBtn) {
@@ -1944,8 +1966,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 } else {
                                     console.warn("Could not find the DownloadPdf button");
                                 }
-                            }, 500); // 500ms delay gives the browser time to hide the watermarks before taking the screenshot
-
+                            }, 500); // The 500ms delay ensures the CSS nuke applies before the screenshot!
                         } else {
                             alert("Payment verification failed.");
                         }
