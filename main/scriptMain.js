@@ -19,7 +19,7 @@ const checkSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xm
 
 const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:5000"
-    : "https://biodata-maker-app-2.onrender.com/";
+    : "https://biodata-maker-app-2.onrender.com";
 
 let ration = cardPreview.clientHeight / 1500;
 let currentTemplate = 0;
