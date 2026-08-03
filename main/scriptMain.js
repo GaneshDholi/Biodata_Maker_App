@@ -1886,7 +1886,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // 1. Fetch Order ID from your backend
-                const response = await fetch("${BACKEND_URL}/api/payment/create-order", {
+                const response = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
                     method: "POST"
                 });
                 const data = await response.json();
@@ -1906,7 +1906,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     "handler": async function (response) {
                         // 3. Verify Payment on the Backend
-                        const verifyRes = await fetch("${BACKEND_URL}/api/payment/verify", {
+                        const verifyRes = await fetch(`${BACKEND_URL}/api/payment/verify`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
