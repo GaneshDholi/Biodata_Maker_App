@@ -1884,7 +1884,7 @@ document.addEventListener("DOMContentLoaded", () => {
         purchaseBtn.addEventListener("click", async function (e) {
             e.preventDefault();
 
-            try {
+            try {   
                 // 1. Fetch Order ID from your backend
                 const response = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
                     method: "POST"
@@ -1895,7 +1895,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 2. Setup Razorpay Options using the backend Order ID
                 var options = {
-                    "key": "rzp_test_YOUR_TEST_KEY_HERE", // PUBLIC KEY IS SAFE HERE
+                    "key": "rzp_live_TLDUux8Rmf0WGM", // PUBLIC KEY IS SAFE HERE
                     "amount": data.order.amount,
                     "currency": "INR",
                     "name": "Marriage Biodata",
