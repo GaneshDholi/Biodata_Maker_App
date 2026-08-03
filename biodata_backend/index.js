@@ -9,7 +9,10 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'https://biodata-maker-app-git-main-ganesh-dholis-projects.vercel.app', 
+    origin: [
+        'https://biodata-maker-app-git-main-ganesh-dholis-projects.vercel.app',
+        'https://biodata-maker-app.vercel.app/'
+    ],
     methods: ['GET', 'POST']
 }));
 app.use(express.json()); // Allows Express to read JSON body data
