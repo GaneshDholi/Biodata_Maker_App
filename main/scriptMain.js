@@ -1927,15 +1927,25 @@ document.addEventListener("DOMContentLoaded", () => {
                         const verifyData = await verifyRes.json();
 
                         if (verifyData.success) {
-                            alert("Payment Verified! Watermark removed.");
+                            alert("Payment Verified! Watermark removed. Your download will start automatically.");
 
-                            // Hide watermarks
+                            // 1. Hide watermarks
                             const watermarks = document.querySelectorAll(".image-overlay");
                             watermarks.forEach(wm => wm.style.display = "none");
 
-                            // Hide the "OR Purchase Now" box
+                            // 2. Hide the "OR Purchase Now" box
                             const actionBox = document.querySelector(".action-box");
                             if (actionBox) actionBox.style.display = "none";
+
+                            setTimeout(() => {
+                                const pdfDownloadBtn = document.getElementById("DownloadPdf");
+                                if (pdfDownloadBtn) {
+                                    pdfDownloadBtn.click();
+                                } else {
+                                    console.warn("Could not find the DownloadPdf button");
+                                }
+                            }, 500); // 500ms delay gives the browser time to hide the watermarks before taking the screenshot
+
                         } else {
                             alert("Payment verification failed.");
                         }
