@@ -832,8 +832,14 @@ function updatePageDisplay() {
     });
 
     const selectedImages = JSON.parse(sessionStorage.getItem("selectedImages") || "[]");
-    document.getElementById("card-image").src = selectedImages[currentPageIndex] || selectedImages[0] || "";
+    const imgEl = document.getElementById("card-image");
+    const newSrc = selectedImages[currentPageIndex] || selectedImages[0];
 
+    if (newSrc) {
+        imgEl.src = newSrc;
+    } else {
+        imgEl.removeAttribute("src"); // This stops html2canvas from crashing!
+    }
     const pageNumber = document.getElementById("page_number");
     if (pageNumber) {
         pageNumber.textContent = `Page ${currentPageIndex + 1}`;
@@ -1717,17 +1723,19 @@ function initDownloadModalWithPreviewAndPDF() {
             );
 
             Promise.all([...imagePromises, fontsLoaded]).then(() => {
-                html2canvas(cardPreview, {
-                    useCORS: true,
-                    backgroundColor: null,
-                    scale: 2
-                }).then(canvas => {
-                    modalImage.src = canvas.toDataURL("image/png");
-                    modal.classList.remove("hidden");
-                }).catch(err => {
-                    console.error("Preview error:", err);
-                    modalImage.alt = "Error loading preview";
-                });
+                setTimeout(() => {
+                    html2canvas(cardPreview, {
+                        useCORS: true,
+                        backgroundColor: null,
+                        scale: window.innerWidth < 768 ? 1.5 : 2 // Helps mobile rendering
+                    }).then(canvas => {
+                        modalImage.src = canvas.toDataURL("image/png");
+                        modal.classList.remove("hidden");
+                    }).catch(err => {
+                        console.error("Preview error:", err);
+                        modalImage.alt = "Error loading preview";
+                    });
+                }, 500);
             });
         } else {
             alert("Card preview not found or no images selected.");
@@ -1794,7 +1802,7 @@ function initDownloadModalWithPreviewAndPDF() {
                 top: "0",
                 width: 450 + "px",
                 height: 650 + "px",
-                backgroundImage: `url(${bgUrl})`,
+                backgroundImage: bgUrl ? `url(${bgUrl})` : "none",
                 backgroundSize: "cover",
                 display: "flex",
                 backgroundRepeat: "no-repeat"
@@ -1884,7 +1892,7 @@ document.addEventListener("DOMContentLoaded", () => {
         purchaseBtn.addEventListener("click", async function (e) {
             e.preventDefault();
 
-            try {   
+            try {
                 // 1. Fetch Order ID from your backend
                 const response = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
                     method: "POST"
@@ -1895,7 +1903,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 2. Setup Razorpay Options using the backend Order ID
                 var options = {
-                    "key": "rzp_live_TLDUux8Rmf0WGM", 
+                    "key": "rzp_live_TLDUux8Rmf0WGM",
                     "amount": data.order.amount,
                     "currency": "INR",
                     "name": "Marriage Biodata",
