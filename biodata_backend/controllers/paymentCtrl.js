@@ -5,7 +5,7 @@ const crypto = require('crypto');
 exports.createOrder = async (req, res) => {
     try {
         const options = {
-            amount: 10, // 1 INR in paise
+            amount: 100, // 1 INR in paise
             currency: "INR",
             receipt: "receipt_" + Date.now(),
         };
