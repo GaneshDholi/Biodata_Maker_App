@@ -1895,7 +1895,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 2. Setup Razorpay Options using the backend Order ID
                 var options = {
-                    "key": "rzp_live_TLDUux8Rmf0WGM", // PUBLIC KEY IS SAFE HERE
+                    "key": "rzp_live_TLDUux8Rmf0WGM", 
                     "amount": data.order.amount,
                     "currency": "INR",
                     "name": "Marriage Biodata",
