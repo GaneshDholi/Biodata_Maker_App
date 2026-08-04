@@ -13,9 +13,9 @@ const valueField = document.getElementById("modalValueInput");
 const saveButton = document.querySelector(".save-btn");
 const cardPreview = document.querySelector(".card-preview");
 const checkSvg = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="18" cy="18" r="18" fill="#4E9459"/>
-    <path d="M12 18.5L16 22.5L24 14.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
+        <circle cx="18" cy="18" r="18" fill="#4E9459"/>
+        <path d="M12 18.5L16 22.5L24 14.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
 
 const BACKEND_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:5000"
@@ -698,12 +698,15 @@ function renderReadyMadeHeader(templateNumber) {
 
             img.src = imageSrc;
             img.setAttribute("data-image-id", previewId);
+
+            // 👇 FIX: Added position: absolute and fixed the borderRadius NaN bug
             Object.assign(img.style, {
+                position: "absolute",
                 top: parseInt(style[0]) * ration + "px",
                 left: parseInt(style[1]) * ration + "px",
                 width: parseInt(style[2]) * ration + "px",
                 height: parseInt(style[3]) * ration + "px",
-                borderRadius: parseInt(style[4]) || "4px" * ration + "px",
+                borderRadius: (parseInt(style[4]) || 4) * ration + "px",
                 objectFit: "cover",
                 zIndex: 2
             });
@@ -1198,8 +1201,8 @@ function renderFormFields(headerFields = []) {
 
                     // 2. Insert a clean SVG icon instead of text
                     uploadBtn.innerHTML = `
-                        <svg aria-hidden="true" width="50" height="50" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" data-iconid="475030" data-svgname="Add Image Button"><path d="M853.333333 874.666667H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333334V234.666667c0-46.933333 38.4-85.333333 85.333334-85.333334h682.666666c46.933333 0 85.333333 38.4 85.333334 85.333334v554.666666c0 46.933333-38.4 85.333333-85.333334 85.333334z" fill="#8CBCD6"></path><path d="M746.666667 341.333333m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z" fill="#B3DDF5"></path><path d="M426.666667 341.333333L192 682.666667h469.333333z" fill="#9AC9E3"></path><path d="M661.333333 469.333333l-170.666666 213.333334h341.333333z" fill="#B3DDF5"></path><path d="M810.666667 810.666667m-213.333334 0a213.333333 213.333333 0 1 0 426.666667 0 213.333333 213.333333 0 1 0-426.666667 0Z" fill="#43A047"></path><path d="M768 682.666667h85.333333v256h-85.333333z" fill="#FFFFFF"></path><path d="M682.666667 768h256v85.333333H682.666667z" fill="#FFFFFF"></path></svg>
-                    `;
+                            <svg aria-hidden="true" width="50" height="50" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" data-iconid="475030" data-svgname="Add Image Button"><path d="M853.333333 874.666667H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333334V234.666667c0-46.933333 38.4-85.333333 85.333334-85.333334h682.666666c46.933333 0 85.333333 38.4 85.333334 85.333334v554.666666c0 46.933333-38.4 85.333333-85.333334 85.333334z" fill="#8CBCD6"></path><path d="M746.666667 341.333333m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z" fill="#B3DDF5"></path><path d="M426.666667 341.333333L192 682.666667h469.333333z" fill="#9AC9E3"></path><path d="M661.333333 469.333333l-170.666666 213.333334h341.333333z" fill="#B3DDF5"></path><path d="M810.666667 810.666667m-213.333334 0a213.333333 213.333333 0 1 0 426.666667 0 213.333333 213.333333 0 1 0-426.666667 0Z" fill="#43A047"></path><path d="M768 682.666667h85.333333v256h-85.333333z" fill="#FFFFFF"></path><path d="M682.666667 768h256v85.333333H682.666667z" fill="#FFFFFF"></path></svg>
+                        `;
 
                     // 3. Strip away default button borders/backgrounds for a minimal look
                     Object.assign(uploadBtn.style, {
@@ -1307,9 +1310,9 @@ function renderFormFields(headerFields = []) {
             const toggle = document.createElement("label");
             toggle.className = "switch";
             toggle.innerHTML = `
-                    <input type="checkbox" ${field.hidden ? "" : "checked"} data-toggle="${idx}">
-                    <span class="slider"></span>
-                `;
+                        <input type="checkbox" ${field.hidden ? "" : "checked"} data-toggle="${idx}">
+                        <span class="slider"></span>
+                    `;
             toggle.querySelector("input").addEventListener("change", (e) => {
                 const isChecked = e.target.checked;
                 field.hidden = !isChecked;
@@ -1335,11 +1338,11 @@ function renderFormFields(headerFields = []) {
             const labelWrapper = document.createElement("div");
             labelWrapper.className = "input-icon-wrapper";
             labelWrapper.innerHTML = `
-            <input type="text" class="input-label" value="${label}" data-label="${idx}" disabled>
-            <button class="edit-btn"><svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.0955 5.15866L12.1278 2.0171C12.0291 1.9126 11.912 1.82971 11.783 1.77316C11.6541 1.71661 11.5159 1.6875 11.3764 1.6875C11.2368 1.6875 11.0987 1.71661 10.9697 1.77316C10.8408 1.82971 10.7237 1.9126 10.625 2.0171L2.43645 10.6873C2.33736 10.7914 2.2588 10.9153 2.20533 11.0518C2.15186 11.1884 2.12456 11.3348 2.12501 11.4826V14.6248C2.12501 14.9232 2.23695 15.2093 2.4362 15.4203C2.63546 15.6313 2.90571 15.7498 3.18751 15.7498H14.3438C14.4847 15.7498 14.6198 15.6906 14.7194 15.5851C14.819 15.4796 14.875 15.3365 14.875 15.1873C14.875 15.0381 14.819 14.8951 14.7194 14.7896C14.6198 14.6841 14.4847 14.6248 14.3438 14.6248H7.65797L15.0955 6.74983C15.1942 6.64536 15.2724 6.52133 15.3259 6.38482C15.3793 6.24831 15.4068 6.102 15.4068 5.95424C15.4068 5.80649 15.3793 5.66017 15.3259 5.52367C15.2724 5.38716 15.1942 5.26313 15.0955 5.15866ZM6.1552 14.6248H3.18751V11.4826L9.03126 5.29506L11.999 8.43733L6.1552 14.6248ZM12.75 7.6421L9.78297 4.49983L11.3767 2.81233L14.3438 5.9546L12.75 7.6421Z" fill="#4E9459"/>
-            </svg>
-            </button>`;
+                <input type="text" class="input-label" value="${label}" data-label="${idx}" disabled>
+                <button class="edit-btn"><svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.0955 5.15866L12.1278 2.0171C12.0291 1.9126 11.912 1.82971 11.783 1.77316C11.6541 1.71661 11.5159 1.6875 11.3764 1.6875C11.2368 1.6875 11.0987 1.71661 10.9697 1.77316C10.8408 1.82971 10.7237 1.9126 10.625 2.0171L2.43645 10.6873C2.33736 10.7914 2.2588 10.9153 2.20533 11.0518C2.15186 11.1884 2.12456 11.3348 2.12501 11.4826V14.6248C2.12501 14.9232 2.23695 15.2093 2.4362 15.4203C2.63546 15.6313 2.90571 15.7498 3.18751 15.7498H14.3438C14.4847 15.7498 14.6198 15.6906 14.7194 15.5851C14.819 15.4796 14.875 15.3365 14.875 15.1873C14.875 15.0381 14.819 14.8951 14.7194 14.7896C14.6198 14.6841 14.4847 14.6248 14.3438 14.6248H7.65797L15.0955 6.74983C15.1942 6.64536 15.2724 6.52133 15.3259 6.38482C15.3793 6.24831 15.4068 6.102 15.4068 5.95424C15.4068 5.80649 15.3793 5.66017 15.3259 5.52367C15.2724 5.38716 15.1942 5.26313 15.0955 5.15866ZM6.1552 14.6248H3.18751V11.4826L9.03126 5.29506L11.999 8.43733L6.1552 14.6248ZM12.75 7.6421L9.78297 4.49983L11.3767 2.81233L14.3438 5.9546L12.75 7.6421Z" fill="#4E9459"/>
+                </svg>
+                </button>`;
 
             const colonSpan = document.createElement("span");
             colonSpan.textContent = ":";
@@ -1360,14 +1363,14 @@ function renderFormFields(headerFields = []) {
         const buttonWrapper = document.createElement("div");
         buttonWrapper.className = "section-buttons-wrapper";
         buttonWrapper.style.cssText = `
-                display: flex;
-                justify-content: flex-end;
-                align-items: flex-end;
-                background: #FFFFFF;
-                backdrop-filter: blur(18.1px);
-                gap: 12px;
-                padding: 5px;
-            `;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    background: #FFFFFF;
+                    backdrop-filter: blur(18.1px);
+                    gap: 12px;
+                    padding: 5px;
+                `;
 
         const addBtn = document.createElement("button");
         addBtn.className = "btn-add";
@@ -1416,9 +1419,9 @@ function renderFormFields(headerFields = []) {
                 const existingSVG = sectionHeader.querySelector(".completion-icon");
                 if (!existingSVG) {
                     const svgString = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="completion-icon">
-                            <circle cx="18" cy="18" r="18" fill="#4E9459"/>
-                            <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
-                            </svg>`;
+                                <circle cx="18" cy="18" r="18" fill="#4E9459"/>
+                                <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
+                                </svg>`;
                     const parser = new DOMParser();
                     const svgDoc = parser.parseFromString(svgString, "image/svg+xml");
                     const svgElement = svgDoc.documentElement;
@@ -1440,9 +1443,9 @@ function renderFormFields(headerFields = []) {
                 const existingSVG = sectionHeader.querySelector(".completion-icon");
                 if (!existingSVG) {
                     const svgString = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="completion-icon">
-                            <circle cx="18" cy="18" r="18" fill="#4E9459"/>
-                            <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
-                            </svg>`;
+                                <circle cx="18" cy="18" r="18" fill="#4E9459"/>
+                                <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
+                                </svg>`;
                     const parser = new DOMParser();
                     const svgDoc = parser.parseFromString(svgString, "image/svg+xml");
                     const svgElement = svgDoc.documentElement;
@@ -1463,9 +1466,9 @@ function renderFormFields(headerFields = []) {
                     const header = document.querySelector(`.section-header[data-section="${sec}"]`);
                     if (header && !header.querySelector(".completion-icon")) {
                         const svgString = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="completion-icon">
-                    <circle cx="18" cy="18" r="18" fill="#4E9459"/>
-                    <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
-                </svg>`;
+                        <circle cx="18" cy="18" r="18" fill="#4E9459"/>
+                        <path d="M25.0454 13.7642L15.5454 23.2642C15.4903 23.3194 15.4248 23.3632 15.3527 23.393C15.2806 23.4229 15.2034 23.4383 15.1253 23.4383C15.0473 23.4383 14.97 23.4229 14.898 23.393C14.8259 23.3632 14.7604 23.3194 14.7053 23.2642L10.549 19.1079C10.4376 18.9965 10.375 18.8454 10.375 18.6878C10.375 18.5303 10.4376 18.3792 10.549 18.2678C10.6604 18.1563 10.8115 18.0937 10.9691 18.0937C11.1266 18.0937 11.2778 18.1563 11.3892 18.2678L15.1253 22.0047L24.2053 12.924C24.3167 12.8126 24.4678 12.75 24.6253 12.75C24.7829 12.75 24.934 12.8126 25.0454 12.924C25.1568 13.0354 25.2194 13.1865 25.2194 13.3441C25.2194 13.5016 25.1568 13.6528 25.0454 13.7642Z" fill="white"/>
+                    </svg>`;
                         const parser = new DOMParser();
                         const svgDoc = parser.parseFromString(svgString, "image/svg+xml");
                         const svgElement = svgDoc.documentElement;
@@ -1529,9 +1532,9 @@ function renderFormFields(headerFields = []) {
 
     function createDropdownHTML(options, selected, idx, placeholder) {
         return `<select class="input-value" data-value="${idx}" id="field-${idx}" name="field-${idx}">
-                <option value="">${placeholder}</option>
-                ${options.map(opt => `<option value="${opt}" ${opt === selected ? "selected" : ""}>${opt}</option>`).join("")}
-            </select>`;
+                    <option value="">${placeholder}</option>
+                    ${options.map(opt => `<option value="${opt}" ${opt === selected ? "selected" : ""}>${opt}</option>`).join("")}
+                </select>`;
     }
 
     function createSectionHeader(title) {
@@ -1541,13 +1544,13 @@ function renderFormFields(headerFields = []) {
         header.style.alignItems = "center";
         header.style.gap = "10px";
         header.innerHTML = `
-                <span>${title}</span>
-                <span class="collapse-arrow">
-                <svg width="36" height="36" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="11" stroke="#C4C4C4" stroke-width="1"/>
-                    <path d="M10 8L14 12L10 16" stroke="#4E9459" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                </span>`;
+                    <span>${title}</span>
+                    <span class="collapse-arrow">
+                    <svg width="36" height="36" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="11" stroke="#C4C4C4" stroke-width="1"/>
+                        <path d="M10 8L14 12L10 16" stroke="#4E9459" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </span>`;
         return header;
     }
 
@@ -1821,17 +1824,22 @@ function initDownloadModalWithPreviewAndPDF() {
             await Promise.all([...imagePromises, document.fonts.ready]);
 
             // ✨ THE IMAGE FIX ✨
-            // html2canvas ignores "object-fit: cover" on <img> tags and squishes them.
-            // We convert them to <div> tags with background images for a perfect render.
+            // Convert images to divs to prevent squishing, but lock them in place
             Array.from(clone.querySelectorAll("img")).forEach(img => {
                 const div = document.createElement("div");
-                div.style.cssText = img.style.cssText; // Copy all positioning and inline styles
+                div.style.cssText = img.style.cssText; // Copy all positioning and styles
+
+                // Force inline-block and absolute positioning so it NEVER shifts layout
+                div.style.display = "inline-block";
+                if (!div.style.position || div.style.position === "static") {
+                    div.style.position = "absolute";
+                }
+
                 div.style.backgroundImage = `url("${img.src}")`;
                 div.style.backgroundSize = "cover";
                 div.style.backgroundPosition = "center";
                 div.style.backgroundRepeat = "no-repeat";
 
-                // Replace the img with the new div in our temporary clone
                 img.parentNode.replaceChild(div, img);
             });
 
@@ -1950,17 +1958,17 @@ document.addEventListener("DOMContentLoaded", () => {
                             // Because your watermark is hidden inside style.css, we inject code to destroy it globally!
                             const nukeStyle = document.createElement("style");
                             nukeStyle.innerHTML = `
-                                .overlay-page::before, 
-                                .overlay-page::after,
-                                .card-preview::before,
-                                .card-preview::after,
-                                [class*="watermark"] {
-                                    display: none !important;
-                                    content: none !important;
-                                    opacity: 0 !important;
-                                    visibility: hidden !important;
-                                }
-                            `;
+                                    .overlay-page::before, 
+                                    .overlay-page::after,
+                                    .card-preview::before,
+                                    .card-preview::after,
+                                    [class*="watermark"] {
+                                        display: none !important;
+                                        content: none !important;
+                                        opacity: 0 !important;
+                                        visibility: hidden !important;
+                                    }
+                                `;
                             document.head.appendChild(nukeStyle);
 
                             // 3. Hide the "OR Purchase Now" box
