@@ -1756,6 +1756,7 @@ function initDownloadModalWithPreviewAndPDF() {
         const { jsPDF } = window.jspdf;
         const pages = Array.from(document.querySelectorAll(".overlay-page"));
         const selectedImages = JSON.parse(sessionStorage.getItem("selectedImages") || "[]");
+        const cardPreview = document.querySelector(".card-preview");
 
         if (!pages.length) return alert("No pages to export.");
 
@@ -1775,47 +1776,38 @@ function initDownloadModalWithPreviewAndPDF() {
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
 
+        // Get the exact dimensions of the preview container on the user's screen
+        const previewRect = cardPreview.getBoundingClientRect();
+
         for (let i = 0; i < pages.length; i++) {
             const page = pages[i];
             const bgUrl = selectedImages[i] || selectedImages[selectedImages.length - 1] || "";
 
-            // Clone and reset layout
+            // Clone the page (DO NOT strip its inline styles or margins)
             const clone = page.cloneNode(true);
-            Object.assign(clone.style, {
-                overflow: "visible",
-                alignItems: "flex-start",
-                justifyContent: "center",
-                padding: "0",
-                margin: "0"
-            });
 
-            // This force-deletes any element with these watermark classes from the PDF canvas
+            // Remove any watermark elements from the clone
             const clonedWatermarks = clone.querySelectorAll(".image-overlay, .watermark, .sample-text");
             clonedWatermarks.forEach(el => el.remove());
 
-            Array.from(clone.children).forEach(child => {
-                child.style.marginTop = "0";
-                child.style.paddingTop = "0";
-            });
-
-            // Wrapper with background image
+            // Wrapper with background image that perfectly mimics the actual card preview
             const wrapper = document.createElement("div");
             Object.assign(wrapper.style, {
                 position: "absolute",
-                right: "0",
+                left: "-9999px", // Hide it far off-screen to avoid flashing
                 top: "0",
-                width: 450 + "px",
-                height: 650 + "px",
+                width: previewRect.width + "px",
+                height: previewRect.height + "px",
                 backgroundImage: bgUrl ? `url(${bgUrl})` : "none",
-                backgroundSize: "cover",
-                display: "flex",
-                backgroundRepeat: "no-repeat"
+                backgroundSize: "100% 100%", // Match aspect exactly, no cropping
+                backgroundRepeat: "no-repeat",
+                overflow: "hidden"
             });
 
             wrapper.appendChild(clone);
             document.body.appendChild(wrapper);
 
-            // Wait for images and fonts
+            // Wait for images and fonts to load completely inside the wrapper
             const images = Array.from(clone.querySelectorAll("img"));
             const imagePromises = images.map(img =>
                 img.complete
@@ -1827,13 +1819,13 @@ function initDownloadModalWithPreviewAndPDF() {
             );
 
             await Promise.all([...imagePromises, document.fonts.ready]);
-            await new Promise(res => setTimeout(res, 100)); // buffer render timing
+            await new Promise(res => setTimeout(res, 100)); // Buffer render timing
 
             // Capture to canvas
             const canvas = await html2canvas(wrapper, {
                 useCORS: true,
                 backgroundColor: null,
-                scale: 3,
+                scale: 3, // High resolution output
                 scrollY: -window.scrollY
             });
 
@@ -1841,7 +1833,7 @@ function initDownloadModalWithPreviewAndPDF() {
             const canvasWidth = canvas.width;
             const canvasHeight = canvas.height;
 
-            // Convert px to pt (1px = 0.75pt approx) and fit to A4
+            // Convert px to pt (1px = 0.75pt approx) and fit proportionally to A4
             const ptWidth = canvasWidth * 0.75;
             const ptHeight = canvasHeight * 0.75;
 
@@ -1855,17 +1847,18 @@ function initDownloadModalWithPreviewAndPDF() {
             if (i > 0) pdf.addPage();
             pdf.addImage(imgData, "PNG", offsetX, offsetY, finalWidth, finalHeight);
 
+            // Cleanup DOM
             document.body.removeChild(wrapper);
         }
 
-        // Reset original visibility
+        // Reset original visibility on the live page
         pages.forEach((page, index) => {
             page.style.display = index === 0 ? "flex" : "none";
             page.style.visibility = "";
         });
 
         // Trigger download
-        pdf.save("template-preview.pdf");
+        pdf.save("biodata-card.pdf");
     });
 }
 
