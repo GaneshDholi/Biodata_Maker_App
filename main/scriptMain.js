@@ -1907,7 +1907,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 2. Setup Razorpay Options using the backend Order ID
                 var options = {
-                    "key": "rzp_live_TLDUux8Rmf0WGM",
+                    "key": "rzp_test_TLc9l8r21xQ9ZR",
                     "amount": data.order.amount,
                     "currency": "INR",
                     "name": "Marriage Biodata",
