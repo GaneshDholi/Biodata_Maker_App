@@ -1819,6 +1819,22 @@ function initDownloadModalWithPreviewAndPDF() {
             );
 
             await Promise.all([...imagePromises, document.fonts.ready]);
+
+            // ✨ THE IMAGE FIX ✨
+            // html2canvas ignores "object-fit: cover" on <img> tags and squishes them.
+            // We convert them to <div> tags with background images for a perfect render.
+            Array.from(clone.querySelectorAll("img")).forEach(img => {
+                const div = document.createElement("div");
+                div.style.cssText = img.style.cssText; // Copy all positioning and inline styles
+                div.style.backgroundImage = `url("${img.src}")`;
+                div.style.backgroundSize = "cover";
+                div.style.backgroundPosition = "center";
+                div.style.backgroundRepeat = "no-repeat";
+
+                // Replace the img with the new div in our temporary clone
+                img.parentNode.replaceChild(div, img);
+            });
+
             await new Promise(res => setTimeout(res, 100)); // Buffer render timing
 
             // Capture to canvas
